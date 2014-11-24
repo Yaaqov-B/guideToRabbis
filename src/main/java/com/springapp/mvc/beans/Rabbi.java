@@ -24,11 +24,11 @@ public class Rabbi {
     private String died;
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "rabbi"/*, orphanRemoval=true*/)
     private List<Book> books;
-    @OneToMany()
-    @JoinColumn(name="STUDENT_ID")
+    @ManyToMany()
+    @JoinTable(name="STUDENT")
     private List<Rabbi> students;
-    @OneToMany()
-    @JoinColumn(name="TEACHER_ID")
+    @ManyToMany()
+    @JoinTable(name="TEACHER")
     private List<Rabbi> teachers;
 
     public void setName(String name) {
