@@ -42,11 +42,15 @@ public class RabbiController {
         model.addAttribute("id", rabbi.getId());
         model.addAttribute("books", rabbi.getBooks() );
         model.addAttribute("students", rabbi.getStudents());
+        model.addAttribute("teachers", rabbi.getTeachers());
         for (Book book:rabbi.getBooks()){
             book.setRabbi(rabbi);
         }
         for (Rabbi student: rabbi.getStudents()){
             rabbiService.addRabbi(student);
+        }
+        for (Rabbi teacher: rabbi.getTeachers()){
+            rabbiService.addRabbi(teacher);
         }
         rabbiService.addRabbi(rabbi);
         return "showRabbi";
@@ -61,6 +65,8 @@ public class RabbiController {
         model.addAttribute("books", rabbi.getBooks());
         List<Rabbi> students = rabbiService.getStudents(rabbiId);
         model.addAttribute("students", students);
+        List<Rabbi> teachers = rabbiService.getTeachers(rabbiId);
+        model.addAttribute("teachers", teachers);
         return "showRabbi";
     }
 }
