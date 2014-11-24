@@ -8,7 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title><spring:message code="message.title"/></title>
     <script src="<c:url value="/resources/js/jquery-1.11.1.min.js" />"></script>
-                      <%--var html = '<button id="' +index +'" type="button">bad</button>';--%>
 </head>
 <body dir="rtl">
 <h2><spring:message code="message.addRabbi"/> </h2>
@@ -26,22 +25,6 @@
                 <td><form:label path="books[0].name"><spring:message code="message.book" /></form:label></td>
                 <td><form:input path="books[0].name"/></td>
         </tr>
-        <%--<tr>--%>
-            <%--<td><form:label path="books[1].name"><spring:message code="message.book" /></form:label></td>--%>
-            <%--<td><form:input path="books[1].name"/></td>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-            <%--<td><form:label path="books[2].name"><spring:message code="message.book" /></form:label></td>--%>
-            <%--<td><form:input path="books[2].name"/></td>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-            <%--<td><form:label path="books[3].name"><spring:message code="message.book" /></form:label></td>--%>
-            <%--<td><form:input path="books[3].name"/></td>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-            <%--<td><form:label path="books[4].name"><spring:message code="message.book" /></form:label></td>--%>
-            <%--<td><form:input path="books[4].name"/></td>--%>
-        <%--</tr>--%>
         <tr>
             <td colspan="2">
                 <button id="add" type="button">add</button>
@@ -51,15 +34,17 @@
             $(function() {
                 var index = 1;
 
-                var bookName= "books[1].name";
+                var path= 'path="books[' + index + '].name"';
                 var html = '<tr><td><form:label path="books[1].name">';
                 html += '<spring:message code="message.book"/>';
                 html += '</form:label></td>';
                 html += '<td><form:input path="books[1].name"/></td></tr>';
-
+                var parsedHtml = $.parseHTML(html);
                 $("#add").off("click").on("click", function() {
                     $(this).before(function(){
-                        return html;
+                        var fixHtml = html.replace(/1/g, index);
+                        alert(fixHtml + index);
+                        return fixHtml;
                     });
                     index++;
                     return false;
