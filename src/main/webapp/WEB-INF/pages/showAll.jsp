@@ -10,10 +10,9 @@
 </head>
 <body dir="rtl">
 
+<c:forEach var="rabbi" items="${rabbis}">
+
 <h2>${rabbi.name}</h2>
-<c:if test="${updated==true}">
-    <h3><spring:message code="message.updated"/></h3>
-</c:if>
 <table id="details">
     <tr id="num">
         <td><spring:message code="message.num" /></td>
@@ -49,7 +48,7 @@
 <table id="books">
     <c:forEach var="book" items="${rabbi.books}">
         <tr class="book">
-            <td>${book.name}</td>
+            <td><input value="${book.name}" /></td>
         </tr>
     </c:forEach>
 </table>
@@ -58,7 +57,7 @@
 <table id="teachers">
     <c:forEach var="teacher" items="${rabbi.teachers}">
         <tr>
-            <td>${teacher.name}</td>
+            <td><input value="${teacher.name}" /></td>
         </tr>
     </c:forEach>
 </table>
@@ -68,19 +67,11 @@
     <c:forEach var="student" items="${rabbi.students}">
 
         <tr>
-            <td>${student.name}</td>
+            <td><input value="${student.name}" /></td>
         </tr>
     </c:forEach>
 </table>
-<br/>
-<a href="/mvc1/rabbi"><spring:message code="message.addRabbi"/></a>
+</c:forEach>
 
-<br/>
-<br/>
-<br/>
-<br/>
-<a href='/mvc1/update/<c:out value="${rabbi.num}"/>'><spring:message code="message.updateRabbi"/></a>
-<br/>
-<a href='/mvc1/remove/<c:out value="${rabbi.num}"/>'><spring:message code="message.removeRabbi"/></a>
 </body>
 </html>

@@ -22,4 +22,6 @@ public interface RabbiDao {
     List<Rabbi> getStudentsByNum(int num);
 
     List<Rabbi> getTeachersByNum(int num);
+
+    List<Rabbi> getRabbiByName(String name);
 }

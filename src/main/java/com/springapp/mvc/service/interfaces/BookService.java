@@ -10,4 +10,6 @@ public interface BookService {
     void addBook(Book Book);
     void removeBook(Book Book);
     Book getBook(int id);
+
+    void update(Book book);
 }

@@ -31,4 +31,9 @@ public class BookDaoImpl implements BookDao {
         Book book = em.find(Book.class, id);
         return book;
     }
+
+    @Override
+    public void update(Book book) {
+        em.merge(book);
+    }
 }

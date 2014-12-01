@@ -1,19 +1,24 @@
 package com.springapp.mvc.beans;
 
+import com.springapp.mvc.NamedBean;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity(name = "rabbi")
 @Table(name="rabbi")
-public class Rabbi {
+public class Rabbi implements NamedBean{
     @GeneratedValue
     @Id
     @Column(name="ID")
     private Integer id;
     @Column(name="NUM", unique = true)
     private Integer num;
+    @NotEmpty
+    @NotNull
     @Column(name="NAME", unique=true)
     private String name;
     @Column(name="NICKNAME")
@@ -22,18 +27,27 @@ public class Rabbi {
     private String born;
     @Column(name="DIED")
     private String died;
+    @Column(name="BORN_GEORGIAN")
+    private String bornGeorgian;
+    @Column(name="DIED_GEORGIAN")
+    private String diedGeorgian;
+    @Column(name="BIRTH_LOCATION")
+    private String birthLocation;
+    @Column(name="DEATH_LOCATION")
+    private String deathLocation;
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "rabbi"/*, orphanRemoval=true*/)
     private List<Book> books;
-    @ManyToMany()
+    @ManyToMany(/*cascade = CascadeType.ALL*/)
     @JoinTable(name="STUDENT")
     private List<Rabbi> students;
-    @ManyToMany()
+    @ManyToMany(/*cascade = CascadeType.ALL*/)
     @JoinTable(name="TEACHER")
     private List<Rabbi> teachers;
 
     public void setName(String name) {
         this.name = name;
     }
+    @Override
     public String getName() {
         return name;
     }
@@ -54,17 +68,17 @@ public class Rabbi {
         this.id = id;
     }
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Rabbi{").append("id=").append(id).append(", name='").append(name).append('\'');
+        sb.append("Rabbi{").append("id=").append(id).append(", num=").append(num).append(", name='").append(name).append('\'');
+        sb.append(", nickname=").append(nickname).append(", born=").append(born).append(", died=").append(died);
+        sb.append(", bornGeorgian=").append(bornGeorgian).append(", diedGeorigan=").append(diedGeorgian);
+        sb.append(", birthLocation=").append(birthLocation).append(", deathLocation=").append(deathLocation);
         sb.append(", books=").append(books);
-//        sb.append(", students=");
-//        for (Rabbi r: students){
-//            sb.append(r.getName()).append(", ");
-//        }
-//        sb.append('}');
+
         return sb.toString();
     }
 
@@ -79,6 +93,9 @@ public class Rabbi {
     public String getBorn() {
         return born;
     }
+    public String getBornGeorgian() {
+        return bornGeorgian;
+    }
 
     public void setBorn(String born) {
         this.born = born;
@@ -87,6 +104,8 @@ public class Rabbi {
     public String getDied() {
         return died;
     }
+
+    public String getDiedGeorgian() { return diedGeorgian; }
 
     public void setDied(String died) {
         this.died = died;
@@ -114,5 +133,29 @@ public class Rabbi {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public String getBirthLocation() {
+        return birthLocation;
+    }
+
+    public void setBirthLocation(String birthLocation) {
+        this.birthLocation = birthLocation;
+    }
+
+    public String getDeathLocation() {
+        return deathLocation;
+    }
+
+    public void setDeathLocation(String deathLocation) {
+        this.deathLocation = deathLocation;
+    }
+
+    public void setBornGeorgian(String bornGeorgian) {
+        this.bornGeorgian = bornGeorgian;
+    }
+
+    public void setDiedGeorgian(String diedGeorgian) {
+        this.diedGeorgian = diedGeorgian;
     }
 }

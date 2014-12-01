@@ -1,10 +1,7 @@
 package com.springapp.mvc.daos.impls;
 
-import com.springapp.mvc.beans.Book;
 import com.springapp.mvc.beans.Rabbi;
-import com.springapp.mvc.beans.Student;
 import com.springapp.mvc.daos.interfaces.RabbiDao;
-import com.springapp.mvc.daos.interfaces.StudentDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +80,16 @@ public class RabbiDaoImpl implements RabbiDao {
     public List<Rabbi> getTeachersByNum(int num) {
         Query query = em.createQuery("select r.teachers from rabbi r where r.num= ?1");
         query.setParameter(1, num);
-        return query.getResultList();    }
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Rabbi> getRabbiByName(String name) {
+        TypedQuery<Rabbi> query = em.createQuery("select r from rabbi r where r.name = ?1", Rabbi.class);
+        query.setParameter(1, name);
+        return query.getResultList();
+
+    }
 
     @Override
     public void updateRabbi(Rabbi rabbi) {
