@@ -1,8 +1,7 @@
-package com.springapp.mvc.daos.interfaces;
+package com.springapp.rabbis.daos.interfaces;
 
 
-import com.springapp.mvc.beans.Rabbi;
-import com.springapp.mvc.beans.Student;
+import com.springapp.rabbis.beans.Rabbi;
 
 import java.util.List;
 

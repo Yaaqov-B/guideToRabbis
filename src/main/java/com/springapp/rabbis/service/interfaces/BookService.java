@@ -1,6 +1,6 @@
-package com.springapp.mvc.service.interfaces;
+package com.springapp.rabbis.service.interfaces;
 
-import com.springapp.mvc.beans.Book;
+import com.springapp.rabbis.beans.Book;
 
 /**
  * Created by home-lt on 09/11/14.

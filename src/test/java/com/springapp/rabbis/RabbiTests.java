@@ -1,9 +1,9 @@
-package com.springapp.mvc;
+package com.springapp.rabbis;
 
-import com.springapp.mvc.beans.Book;
-import com.springapp.mvc.beans.Rabbi;
-import com.springapp.mvc.service.interfaces.BookService;
-import com.springapp.mvc.service.interfaces.RabbiService;
+import com.springapp.rabbis.beans.Book;
+import com.springapp.rabbis.beans.Rabbi;
+import com.springapp.rabbis.service.interfaces.BookService;
+import com.springapp.rabbis.service.interfaces.RabbiService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

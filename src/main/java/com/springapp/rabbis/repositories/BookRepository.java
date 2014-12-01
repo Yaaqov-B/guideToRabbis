@@ -1,8 +1,7 @@
-package com.springapp.mvc.repositories;
+package com.springapp.rabbis.repositories;
 
 
-import com.springapp.mvc.beans.Book;
-import com.springapp.mvc.beans.Rabbi;
+import com.springapp.rabbis.beans.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

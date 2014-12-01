@@ -1,12 +1,11 @@
-package com.springapp.mvc.repositories;
+package com.springapp.rabbis.repositories;
 
 
-import com.springapp.mvc.beans.Rabbi;
+import com.springapp.rabbis.beans.Rabbi;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Repository
 @Transactional

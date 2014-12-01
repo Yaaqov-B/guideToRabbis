@@ -1,7 +1,7 @@
-package com.springapp.mvc.beans;
+package com.springapp.rabbis.beans;
 
 
-import com.springapp.mvc.NamedBean;
+import com.springapp.rabbis.NamedBean;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;

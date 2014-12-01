@@ -1,7 +1,7 @@
-package com.springapp.mvc.daos.impls;
+package com.springapp.rabbis.daos.impls;
 
-import com.springapp.mvc.beans.Book;
-import com.springapp.mvc.daos.interfaces.BookDao;
+import com.springapp.rabbis.beans.Book;
+import com.springapp.rabbis.daos.interfaces.BookDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

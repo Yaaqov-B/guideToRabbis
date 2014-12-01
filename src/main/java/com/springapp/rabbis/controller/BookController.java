@@ -1,8 +1,7 @@
-package com.springapp.mvc.controller;
+package com.springapp.rabbis.controller;
 
-import com.springapp.mvc.beans.Book;
-import com.springapp.mvc.beans.Student;
-import com.springapp.mvc.service.interfaces.BookService;
+import com.springapp.rabbis.beans.Book;
+import com.springapp.rabbis.service.interfaces.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class BookController {

@@ -31,6 +31,10 @@
         <td><spring:message code="message.born" /></td>
         <td>${rabbi.born}</td>
     </tr>
+    <tr id="bornGeorgian">
+        <td><spring:message code="message.bornGeorgian" /></td>
+        <td>${rabbi.bornGeorgian}</td>
+    </tr>
     <tr id="birth_location">
         <td><spring:message code="message.birth_location" /></td>
         <td>${rabbi.birthLocation}</td>
@@ -38,6 +42,10 @@
     <tr id="died">
         <td><spring:message code="message.died" /></td>
         <td>${rabbi.died}</td>
+    </tr>
+    <tr id="diedGeorgian">
+        <td><spring:message code="message.diedGeorgian" /></td>
+        <td>${rabbi.diedGeorgian}</td>
     </tr>
     <tr id="death_location">
         <td><spring:message code="message.death_location" /></td>

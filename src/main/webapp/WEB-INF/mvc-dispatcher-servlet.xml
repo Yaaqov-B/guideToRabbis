@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="com.springapp.mvc"/>
+    <context:component-scan base-package="com.springapp.rabbis"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
@@ -47,7 +47,7 @@
 
     <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.springapp.mvc" />
+        <property name="packagesToScan" value="com.springapp.rabbis" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>
@@ -67,7 +67,7 @@
 
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <jpa:repositories base-package="com.springapp.mvc.repositories" entity-manager-factory-ref="myEmf"/>
+    <jpa:repositories base-package="com.springapp.rabbis.repositories" entity-manager-factory-ref="myEmf"/>
 
     <mvc:default-servlet-handler/>
     <mvc:resources mapping="/resources/**" location="resources" />

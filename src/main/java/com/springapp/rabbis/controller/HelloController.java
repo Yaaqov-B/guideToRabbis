@@ -1,7 +1,6 @@
-package com.springapp.mvc.controller;
+package com.springapp.rabbis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

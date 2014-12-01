@@ -1,7 +1,7 @@
-package com.springapp.mvc.daos.impls;
+package com.springapp.rabbis.daos.impls;
 
-import com.springapp.mvc.beans.Rabbi;
-import com.springapp.mvc.daos.interfaces.RabbiDao;
+import com.springapp.rabbis.beans.Rabbi;
+import com.springapp.rabbis.daos.interfaces.RabbiDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

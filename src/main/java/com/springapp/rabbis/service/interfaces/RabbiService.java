@@ -1,6 +1,6 @@
-package com.springapp.mvc.service.interfaces;
+package com.springapp.rabbis.service.interfaces;
 
-import com.springapp.mvc.beans.Rabbi;
+import com.springapp.rabbis.beans.Rabbi;
 
 import java.util.List;
 

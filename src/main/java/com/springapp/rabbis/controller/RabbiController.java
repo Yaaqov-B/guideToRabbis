@@ -1,14 +1,12 @@
-package com.springapp.mvc.controller;
+package com.springapp.rabbis.controller;
 
-import com.springapp.mvc.NamedBean;
-import com.springapp.mvc.beans.Book;
-import com.springapp.mvc.beans.Rabbi;
-import com.springapp.mvc.beans.Student;
-import com.springapp.mvc.repositories.BookRepository;
-import com.springapp.mvc.repositories.RabbiRepository;
-import com.springapp.mvc.service.StudentService;
-import com.springapp.mvc.service.interfaces.BookService;
-import com.springapp.mvc.service.interfaces.RabbiService;
+import com.springapp.rabbis.NamedBean;
+import com.springapp.rabbis.beans.Rabbi;
+import com.springapp.rabbis.repositories.BookRepository;
+import com.springapp.rabbis.repositories.RabbiRepository;
+import com.springapp.rabbis.service.interfaces.BookService;
+import com.springapp.rabbis.service.interfaces.RabbiService;
+import com.springapp.rabbis.toolkit.HebrewToGeorgian;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,10 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,6 +28,7 @@ public class RabbiController {
     BookRepository bookRepository;
     @Autowired(required = true)
     RabbiRepository rabbiRepository;
+    private static HebrewToGeorgian hebrewToGeorgian = new HebrewToGeorgian();
 
     @RequestMapping(value = "/rabbi", method = RequestMethod.GET)
     public String rabbi(ModelMap model) {
@@ -62,6 +58,7 @@ public class RabbiController {
         Rabbi r = rabbiRepository.findByName(rabbi.getName());
         boolean updated = r != null;
 
+        updateGeorgian(rabbi);
         if (updated){
             rabbiService.updateRabbi(rabbi, r.getId());
         } else {
@@ -69,6 +66,26 @@ public class RabbiController {
         }
         model.addAttribute("updated", updated);
         return "showRabbi";
+    }
+
+    private void updateGeorgian(Rabbi rabbi) {
+        String born = rabbi.getBorn();
+        if (born != null  && !born.trim().isEmpty()){
+            if (rabbi.getBornGeorgian() == null || rabbi.getBornGeorgian().isEmpty()){
+                String georgian = hebrewToGeorgian.convertHebrewYearToGeorgian(born);
+                rabbi.setBornGeorgian(georgian);
+                rabbi.setBorn(hebrewToGeorgian.formatHebrewYear(born));
+            }
+        }
+
+        String died = rabbi.getDied();
+        if (died != null && !died.trim().isEmpty()){
+            if (rabbi.getDiedGeorgian() == null || rabbi.getDiedGeorgian().isEmpty()){
+                String georgian = hebrewToGeorgian.convertHebrewYearToGeorgian(died);
+                rabbi.setDiedGeorgian(georgian);
+                rabbi.setDied(hebrewToGeorgian.formatHebrewYear(died));
+            }
+        }
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -81,7 +98,7 @@ public class RabbiController {
         Iterator<? extends NamedBean> iterator = list.iterator();
         while (iterator.hasNext()){
             NamedBean bean = iterator.next();
-            if (bean.getName().isEmpty()){
+            if (bean.getName().trim().isEmpty()){
                 iterator.remove();
             }
         }

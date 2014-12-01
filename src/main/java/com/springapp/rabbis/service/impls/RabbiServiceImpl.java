@@ -1,11 +1,11 @@
-package com.springapp.mvc.service.impls;
+package com.springapp.rabbis.service.impls;
 
-import com.springapp.mvc.beans.Book;
-import com.springapp.mvc.beans.Rabbi;
-import com.springapp.mvc.daos.interfaces.RabbiDao;
-import com.springapp.mvc.repositories.BookRepository;
-import com.springapp.mvc.service.interfaces.BookService;
-import com.springapp.mvc.service.interfaces.RabbiService;
+import com.springapp.rabbis.beans.Book;
+import com.springapp.rabbis.beans.Rabbi;
+import com.springapp.rabbis.daos.interfaces.RabbiDao;
+import com.springapp.rabbis.repositories.BookRepository;
+import com.springapp.rabbis.service.interfaces.BookService;
+import com.springapp.rabbis.service.interfaces.RabbiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

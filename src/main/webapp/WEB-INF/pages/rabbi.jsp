@@ -80,7 +80,7 @@
             });
         });
     </script>
-    <table>
+    <table id="main_table">
         <tr id="num">
             <td><form:label path="num"><spring:message code="message.num" /></form:label></td>
             <td><form:input path="num" /></td>
@@ -109,10 +109,18 @@
             <td><form:label path="deathLocation"><spring:message code="message.death_location" /></form:label></td>
             <td><form:input path="deathLocation" /></td>
         </tr>
+    <%--</table>--%>
+    <%--<table id="books_table">--%>
         <tr class="book">
                 <td><form:label path="books[0].name"><spring:message code="message.book" /></form:label></td>
                 <td><form:input path="books[0].name"/></td>
         </tr>
+        <c:forEach begin="1" end="10" var="book" items="${command.books}" varStatus="loop" >
+            <tr class="book">
+                <td><form:label path="books[${loop.index}].name"><spring:message code="message.book" /></form:label></td>
+                <td><form:input path="books[${loop.index}].name"/></td>
+            </tr>
+        </c:forEach>
         <tr class="buttons">
             <td>
                 <input type='button' value='<spring:message code="message.addBook"/>' id='addBook'>
@@ -120,11 +128,18 @@
 
             </td>
         </tr>
-
+    <%--</table>--%>
+    <%--<table id="teachers_table">--%>
         <tr class="teacher">
             <td><form:label path="teachers[0].name"><spring:message code="message.teacher" /></form:label></td>
             <td><form:input path="teachers[0].name"/></td>
         </tr>
+        <c:forEach begin="1" end="10" var="teacher" items="${command.teachers}" varStatus="loop" >
+            <tr class="teacher">
+                <td><form:label path="teachers[${loop.index}].name"><spring:message code="message.teacher" /></form:label></td>
+                <td><form:input path="teachers[${loop.index}].name"/></td>
+            </tr>
+        </c:forEach>
         <tr class="buttons">
             <td>
                 <input type='button' value='<spring:message code="message.addTeacher"/>' id='addTeacher'>
@@ -132,10 +147,18 @@
 
             </td>
         </tr>
+    <%--</table>--%>
+    <%--<table id ="students_table">--%>
         <tr class="student">
             <td><form:label path="students[0].name"><spring:message code="message.student" /></form:label></td>
             <td><form:input path="students[0].name"/></td>
         </tr>
+        <c:forEach begin="1" end="10" var="student" items="${command.students}" varStatus="loop" >
+        <tr class="student">
+            <td><form:label path="students[${loop.index}].name"><spring:message code="message.student" /></form:label></td>
+            <td><form:input path="students[${loop.index}].name"/></td>
+        </tr>
+        </c:forEach>
         <tr class="buttons">
             <td>
                 <input type='button' value='<spring:message code="message.addStudent"/>' id='addStudent'>
@@ -143,6 +166,8 @@
 
             </td>
         </tr>
+    <%--<table>--%>
+    <%--<table id="submit_table">--%>
         <tr id="submit_button">
             <td colspan="2">
                 <input type="submit" value="<spring:message code="message.send" />"/>
