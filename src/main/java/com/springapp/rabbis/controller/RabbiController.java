@@ -45,6 +45,9 @@ public class RabbiController {
         rabbi.setStudents(students);
         rabbi.setTeachers(teachers);
         model.addAttribute("command", rabbi);
+        model.addAttribute("nbooks", rabbi.getBooks().size());
+        model.addAttribute("nstudents", rabbi.getStudents().size());
+        model.addAttribute("nteachers", rabbi.getTeachers().size());
         return "rabbi";
     }
 
@@ -161,6 +164,24 @@ public class RabbiController {
         model.addAttribute("rabbis", rabbis);
         return "showAll";
     }
+
+    @RequestMapping(value = "/allNum")
+    public String findAllWithNum(ModelMap model){
+        List<Rabbi> rabbis = rabbiRepository.findByNumIsNotNullOrderByNumAsc();
+
+        for (Rabbi rabbi: rabbis){
+            Integer rabbiId = rabbi.getId();
+            List<Rabbi> students = rabbiService.getStudents(rabbiId);
+            List<Rabbi> teachers = rabbiService.getTeachers(rabbiId);
+            rabbi.setStudents(students);
+            rabbi.setTeachers(teachers);
+        }
+
+        model.addAttribute("rabbis", rabbis);
+        return "showAll";
+    }
+
+
 
     @RequestMapping(value = "/removeall")
     public String removeAll(ModelMap model){

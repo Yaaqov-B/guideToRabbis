@@ -115,7 +115,7 @@
                 <td><form:label path="books[0].name"><spring:message code="message.book" /></form:label></td>
                 <td><form:input path="books[0].name"/></td>
         </tr>
-        <c:forEach begin="1" end="10" var="book" items="${command.books}" varStatus="loop" >
+        <c:forEach begin="1" end="${nbooks}" var="book" items="${command.books}" varStatus="loop" >
             <tr class="book">
                 <td><form:label path="books[${loop.index}].name"><spring:message code="message.book" /></form:label></td>
                 <td><form:input path="books[${loop.index}].name"/></td>
@@ -134,7 +134,7 @@
             <td><form:label path="teachers[0].name"><spring:message code="message.teacher" /></form:label></td>
             <td><form:input path="teachers[0].name"/></td>
         </tr>
-        <c:forEach begin="1" end="10" var="teacher" items="${command.teachers}" varStatus="loop" >
+        <c:forEach begin="1" end="${nteachers}" var="teacher" items="${command.teachers}" varStatus="loop" >
             <tr class="teacher">
                 <td><form:label path="teachers[${loop.index}].name"><spring:message code="message.teacher" /></form:label></td>
                 <td><form:input path="teachers[${loop.index}].name"/></td>
@@ -153,7 +153,7 @@
             <td><form:label path="students[0].name"><spring:message code="message.student" /></form:label></td>
             <td><form:input path="students[0].name"/></td>
         </tr>
-        <c:forEach begin="1" end="10" var="student" items="${command.students}" varStatus="loop" >
+        <c:forEach begin="1" end="${nstudents}" var="student" items="${command.students}" varStatus="loop" >
         <tr class="student">
             <td><form:label path="students[${loop.index}].name"><spring:message code="message.student" /></form:label></td>
             <td><form:input path="students[${loop.index}].name"/></td>
