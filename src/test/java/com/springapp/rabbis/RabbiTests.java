@@ -112,7 +112,7 @@ public class RabbiTests {
             b.setRabbi(r);
             r.getBooks().add(b);
 
-            rabbiService.updateRabbi(r, r.getId());
+            rabbiService.addRabbi(r);
 
         }
         Rabbi isRashbi = rabbiService.getRabbiByNum(1);
@@ -126,7 +126,7 @@ public class RabbiTests {
             b.setRabbi(r);
             r.getBooks().add(b);
 
-            rabbiService.updateRabbi(r, r.getId());
+            rabbiService.addRabbi(r);
 
         }
         Rabbi isAristo = rabbiService.getRabbiByNum(4);
@@ -208,7 +208,7 @@ public class RabbiTests {
             b.setRabbi(r);
             r.getBooks().add(b);
 
-            rabbiService.updateRabbi(r, r.getId());
+            rabbiService.addRabbi(r);
 
         }
         Rabbi isRashbi = rabbiService.getRabbiByNum(1);
@@ -223,7 +223,7 @@ public class RabbiTests {
             b.setRabbi(r);
             r.getBooks().add(b);
 
-            rabbiService.updateRabbi(r, r.getId());
+            rabbiService.addRabbi(r);
 
         }
 //        Thread.sleep(40000);

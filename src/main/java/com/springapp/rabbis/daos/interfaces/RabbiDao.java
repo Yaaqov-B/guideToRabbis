@@ -22,5 +22,8 @@ public interface RabbiDao {
 
     List<Rabbi> getTeachersByNum(int num);
 
-    List<Rabbi> getRabbiByName(String name);
+    Rabbi getRabbiByName(String name);
+
+    List<Rabbi> findByBook(String book);
+    List<Rabbi> findByBookContaining(String book);
 }

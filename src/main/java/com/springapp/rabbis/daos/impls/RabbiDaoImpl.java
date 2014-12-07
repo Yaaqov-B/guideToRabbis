@@ -12,7 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Transactional(propagation = Propagation.REQUIRED)
+@Transactional()
 @Repository("rabbiDao")
 public class RabbiDaoImpl implements RabbiDao {
 
@@ -84,11 +84,25 @@ public class RabbiDaoImpl implements RabbiDao {
     }
 
     @Override
-    public List<Rabbi> getRabbiByName(String name) {
+    public Rabbi getRabbiByName(String name) {
         TypedQuery<Rabbi> query = em.createQuery("select r from rabbi r where r.name = ?1", Rabbi.class);
         query.setParameter(1, name);
-        return query.getResultList();
+        return query.getSingleResult();
 
+    }
+
+    @Override
+    public List<Rabbi> findByBook(String book) {
+        Query query = em.createQuery("select r from rabbi r, book b where b.name = ?1 and b.rabbi = r");
+        query.setParameter(1, book);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Rabbi> findByBookContaining(String book) {
+        Query query = em.createQuery("select b.rabbi from book b where b.name like ?1");
+        query.setParameter(1 , "%" +book + "%");
+        return query.getResultList();
     }
 
     @Override

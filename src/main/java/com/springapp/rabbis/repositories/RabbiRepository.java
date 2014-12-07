@@ -14,6 +14,14 @@ public interface RabbiRepository extends JpaRepository<Rabbi, Long> {
     Rabbi findByName(String name);
     Rabbi findByNum(int num);
     List<Rabbi> findByNumIsNotNullOrderByNumAsc();
+    List<Rabbi> findByNameContaining(String name);
+    List<Rabbi> findByNicknameContaining(String name);
+    List<Rabbi> findByBirthLocation(String name);
+    List<Rabbi> findByDeathLocation(String name);
+    List<Rabbi> findByBorn(String name);
+    List<Rabbi> findByDied(String name);
+    List<Rabbi> findByBornGeorgian(String name);
+    List<Rabbi> findByDiedGeorgian(String name);
     void deleteByName(String name);
 
     void deleteByNum(Integer num);

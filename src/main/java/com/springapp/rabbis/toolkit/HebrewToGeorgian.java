@@ -23,7 +23,13 @@ public class HebrewToGeorgian {
 
     public String formatHebrewYear(String hebrewYear){
         int length = hebrewYear.length();
-        String year = hebrewYear.substring(0,1).concat("' ").concat(hebrewYear.substring(1, length - 1)).concat("\"").concat(hebrewYear.substring(length - 1, length));
+        String year;
+        if (length==2){
+            year = hebrewYear.substring(0,1).concat("' ").concat(hebrewYear.substring(1, length)).concat("'");
+        } else {
+            year = hebrewYear.substring(0,1).concat("' ").concat(hebrewYear.substring(1, length - 1)).concat("\"").concat(hebrewYear.substring(length - 1, length));
+        }
+
         return year;
     }
 
