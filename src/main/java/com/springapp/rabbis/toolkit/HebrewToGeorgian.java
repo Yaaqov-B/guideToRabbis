@@ -18,10 +18,13 @@ public class HebrewToGeorgian {
         year = hebrewToGeorgian.formatHebrewYear("דתשמב");
         System.out.println(year);
         System.out.println(hebrewToGeorgian.formatHebrewYearSimple(year));
+        year = "ד' תשמ\"ב";
+        System.out.println(hebrewToGeorgian.formatHebrewYearSimple(year));
 
     }
 
     public String formatHebrewYear(String hebrewYear){
+        if (hebrewYear.contains("'")) return hebrewYear;
         int length = hebrewYear.length();
         String year;
         if (length==2){

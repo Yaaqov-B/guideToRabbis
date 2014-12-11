@@ -32,6 +32,11 @@ public class RabbiController {
     RabbiRepository rabbiRepository;
     private static HebrewToGeorgian hebrewToGeorgian = new HebrewToGeorgian();
 
+    @RequestMapping("/")
+	public String home() {
+		return "defaultTemplate";
+	}
+
     @RequestMapping(value = "/rabbi", method = RequestMethod.GET)
     public String rabbi(ModelMap model) {
         model.addAttribute("command", new Rabbi());
@@ -55,25 +60,14 @@ public class RabbiController {
 
     @RequestMapping(value = "/addRabbi", method = RequestMethod.POST)
     public String addRabbi(@ModelAttribute("rabbi")Rabbi rabbi,
-                             ModelMap model) {
+                           ModelMap model) {
         model.addAttribute("rabbi", rabbi);
         removeEmptyNameElements(rabbi.getBooks());
         removeEmptyNameElements(rabbi.getStudents());
         removeEmptyNameElements(rabbi.getTeachers());
         boolean updated = rabbiService.removeIfExist(rabbi);
-//        Rabbi oldRabbi = rabbiRepository.findByName(rabbi.getName());
-//        boolean updated = oldRabbi != null;
-//
-//        if (updated){
-//            rabbiService.removeRabbi(oldRabbi);
-//        }
         updateGeorgian(rabbi);
-
-//            rabbiService.updateRabbi(rabbi, oldRabbi);
-//        } else {
         rabbiService.addRabbi(rabbi);
-//        boolean updated = oldRabbi != null;
-//        }
         model.addAttribute("updated", updated);
         return "showRabbi";
     }
@@ -81,25 +75,25 @@ public class RabbiController {
     private void updateGeorgian(Rabbi rabbi) {
         String born = rabbi.getBorn();
         if (born != null  && !born.trim().isEmpty()){
-//            if (rabbi.getBornGeorgian() == null || rabbi.getBornGeorgian().isEmpty()){
-                String georgian = hebrewToGeorgian.convertHebrewYearToGeorgian(born);
-                rabbi.setBornGeorgian(georgian);
-                rabbi.setBorn(hebrewToGeorgian.formatHebrewYear(born));
-//            }
+            String georgian = hebrewToGeorgian.convertHebrewYearToGeorgian(born);
+            rabbi.setBornGeorgian(georgian);
+            rabbi.setBorn(hebrewToGeorgian.formatHebrewYear(born));
         }
 
         String died = rabbi.getDied();
         if (died != null && !died.trim().isEmpty()){
-//            if (rabbi.getDiedGeorgian() == null || rabbi.getDiedGeorgian().isEmpty()){
-                String georgianDied = hebrewToGeorgian.convertHebrewYearToGeorgian(died);
-                rabbi.setDiedGeorgian(georgianDied);
-                rabbi.setDied(hebrewToGeorgian.formatHebrewYear(died));
-//            }
+            String georgianDied = hebrewToGeorgian.convertHebrewYearToGeorgian(died);
+            rabbi.setDiedGeorgian(georgianDied);
+            rabbi.setDied(hebrewToGeorgian.formatHebrewYear(died));
         }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String search(@ModelAttribute("search") String search, ModelMap model){
+        if (search == null || search.trim().isEmpty()){
+            getAll(model);
+            return "showAll";
+        }
         boolean numeric = StringUtils.isNumeric(search);
         List<Rabbi> rabbis = new ArrayList<Rabbi>();
         System.out.println(search);
@@ -205,12 +199,14 @@ public class RabbiController {
 
     @RequestMapping(value = "/all")
     public String findAllWithNum(ModelMap model){
-        List<Rabbi> rabbis = rabbiRepository.findByNumIsNotNullOrderByNumAsc();
-
-        allRabbis(model, rabbis);
+        getAll(model);
         return "showAll";
     }
 
+    private void getAll(ModelMap model) {
+        List<Rabbi> rabbis = rabbiRepository.findByNumIsNotNullOrderByNumAsc();
+        allRabbis(model, rabbis);
+    }
 
 
 //    @RequestMapping(value = "/removeall")

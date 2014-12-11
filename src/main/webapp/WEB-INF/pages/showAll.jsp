@@ -3,12 +3,12 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title><spring:message code="message.title"/></title>
-</head>
-<body dir="rtl">
+<%--<html>--%>
+<%--<head>--%>
+    <%--<meta http-equiv="Content-Type" content="text/html; charset=utf-8">--%>
+    <%--<title><spring:message code="message.title"/></title>--%>
+<%--</head>--%>
+<%--<body dir="rtl">--%>
 
 <c:forEach var="rabbi" items="${rabbis}">
 
@@ -84,5 +84,5 @@
     <br/>
     <a href='/mvc1/remove/<c:out value="${rabbi.num}"/>'><spring:message code="message.removeRabbi"/></a>
 </c:forEach>
-</body>
-</html>
+<%--</body>--%>
+<%--</html>--%>

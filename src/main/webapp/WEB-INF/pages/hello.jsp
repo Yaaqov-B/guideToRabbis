@@ -7,11 +7,11 @@
 </head>
 <body dir="rtl">
 	<h1>${message}</h1>
-    <spring:message code="message.hi" />
+    <%--<spring:message code="message.hi" />--%>
+    <form method="post" action="/mvc1/">
+        <td><label id="search_label"><spring:message code="message.search"/></label></td>
+        <td><input id="search_input" name="search"/></td>
+        <button type="submit">send</button>
+    </form>
 </body>
-<form method="post" action="/mvc1/">
-    <td><label id="search_label"><spring:message code="message.search"/></label></td>
-    <td><input id="search_input" name="search"/></td>
-    <button type="submit">send</button>
-</form>
 </html>
