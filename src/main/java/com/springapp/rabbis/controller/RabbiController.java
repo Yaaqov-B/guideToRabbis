@@ -8,6 +8,8 @@ import com.springapp.rabbis.service.interfaces.BookService;
 import com.springapp.rabbis.service.interfaces.RabbiService;
 import com.springapp.rabbis.toolkit.HebrewToGeorgian;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.impl.Log4JLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,6 +34,7 @@ public class RabbiController {
     RabbiRepository rabbiRepository;
     private static HebrewToGeorgian hebrewToGeorgian = new HebrewToGeorgian();
 
+    Log LOG = new Log4JLogger(RabbiController.class.getName());
     @RequestMapping("/")
 	public String home() {
 		return "defaultTemplate";
@@ -97,6 +100,7 @@ public class RabbiController {
         boolean numeric = StringUtils.isNumeric(search);
         List<Rabbi> rabbis = new ArrayList<Rabbi>();
         System.out.println(search);
+        LOG.info(search);
         if (numeric) {
             int num = Integer.parseInt(search);
             System.out.println(num);
