@@ -2,12 +2,15 @@ package com.springapp.rabbis.daos.impls;
 
 import com.springapp.rabbis.beans.Book;
 import com.springapp.rabbis.daos.interfaces.BookDao;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
 
 @Transactional(propagation = Propagation.REQUIRED)
 @Repository("bookDao")

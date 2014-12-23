@@ -3,15 +3,31 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
-<%--<html>--%>
-<%--<head>--%>
-    <%--<meta http-equiv="Content-Type" content="text/html; charset=utf-8">--%>
-    <%--<title><spring:message code="message.title"/></title>--%>
-<%--</head>--%>
-<%--<body dir="rtl">--%>
+<script type="text/javascript">
+
+    $(function() {
+//        var className="highlite";
+
+        //   var myHilitor = new Hilitor("content");
+       // myHilitor.apply("סעדיה");
+//        var str ="סעדיה";
+//        var regex = new RegExp(str, "gi");
+////        return this.each(function () {
+//                $(this).contents().filter(function() {
+//                    return this.nodeType == 3 && regex.test(this.nodeValue);
+//                }).replaceWith(function() {
+//                    return (this.nodeValue || "").replace(regex, function(match) {
+//
+//                        return "<span class=\"" + className + "\">" + match + "</span>";
+//                    });
+//                });
+//            });
+//        var replaced = $("body").html().replace(/סעדיה/,'עובדיה');
+//        $("body").html(replaced);
+    });
+</script>
 
 <c:forEach var="rabbi" items="${rabbis}">
-
     <h2>${rabbi.name}</h2>
     <table id="details">
         <tr id="num">
@@ -84,5 +100,3 @@
     <br/>
     <a href='/mvc1/remove/<c:out value="${rabbi.num}"/>'><spring:message code="message.removeRabbi"/></a>
 </c:forEach>
-<%--</body>--%>
-<%--</html>--%>

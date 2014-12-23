@@ -34,17 +34,52 @@ public class RabbiController {
     RabbiRepository rabbiRepository;
     private static HebrewToGeorgian hebrewToGeorgian = new HebrewToGeorgian();
 
-    Log LOG = new Log4JLogger(RabbiController.class.getName());
-    @RequestMapping("/")
+    private static Log LOG = new Log4JLogger(RabbiController.class.getName());
+    @RequestMapping(value = "/" , method = RequestMethod.GET)
 	public String home() {
 		return "defaultTemplate";
 	}
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String search(@ModelAttribute("search") String search, ModelMap model){
+        if (search == null || search.trim().isEmpty()){
+            getAll(model);
+            LOG.info("search for all");
+            return "showAll";
+        }
+        boolean numeric = StringUtils.isNumeric(search);
+        List<Rabbi> rabbis = new ArrayList<Rabbi>();
+        LOG.info(search);
+        if (numeric) {
+            int num = Integer.parseInt(search);
+            rabbis.add(rabbiRepository.findByNum(num));
+            rabbis.addAll(rabbiRepository.findByDiedGeorgian(search));
+            rabbis.addAll(rabbiRepository.findByBornGeorgian(search));
+        } else {
+            searchAllOptions(search, rabbis);
+            if (!search.contains("\"")){
+                int length = search.length();
+                String other = search.substring(0, length -1).concat("\"").concat(search.substring(length -1, length));
+                searchAllOptions(other, rabbis);
+            }
+            allRabbis(model, rabbis);
+        }
+        return "showAll";
+    }
 
     @RequestMapping(value = "/rabbi", method = RequestMethod.GET)
     public String rabbi(ModelMap model) {
         model.addAttribute("command", new Rabbi());
         return "rabbi";
     }
+
+
+//    @RequestMapping(value = "/th", method = RequestMethod.GET)
+//    public String th(ModelMap model) {
+//        Rabbi rabbi = rabbiService.getRabbi(1);
+//        model.addAttribute("rabbi", rabbi);
+//        return "thym";
+//    }
 
     @RequestMapping(value = "/update/{num}")
     public String updateRabbi(@PathVariable String num, ModelMap model){
@@ -58,6 +93,8 @@ public class RabbiController {
         model.addAttribute("nbooks", rabbi.getBooks().size());
         model.addAttribute("nstudents", rabbi.getStudents().size());
         model.addAttribute("nteachers", rabbi.getTeachers().size());
+        LOG.info("update rabbi: " + rabbi);
+
         return "rabbi";
     }
 
@@ -72,6 +109,12 @@ public class RabbiController {
         updateGeorgian(rabbi);
         rabbiService.addRabbi(rabbi);
         model.addAttribute("updated", updated);
+        if (updated){
+            LOG.info("updating rabbi: " + rabbi);
+        } else {
+            LOG.info("adding rabbi: " + rabbi);
+        }
+
         return "showRabbi";
     }
 
@@ -91,36 +134,10 @@ public class RabbiController {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String search(@ModelAttribute("search") String search, ModelMap model){
-        if (search == null || search.trim().isEmpty()){
-            getAll(model);
-            return "showAll";
-        }
-        boolean numeric = StringUtils.isNumeric(search);
-        List<Rabbi> rabbis = new ArrayList<Rabbi>();
-        System.out.println(search);
-        LOG.info(search);
-        if (numeric) {
-            int num = Integer.parseInt(search);
-            System.out.println(num);
-            rabbis.add(rabbiRepository.findByNum(num));
-            rabbis.addAll(rabbiRepository.findByDiedGeorgian(search));
-            rabbis.addAll(rabbiRepository.findByBornGeorgian(search));
-        } else {
-            searchAllOptions(search, rabbis);
-            if (!search.contains("\"")){
-                int length = search.length();
-                String other = search.substring(0, length -1).concat("\"").concat(search.substring(length -1, length));
-                searchAllOptions(other, rabbis);
-            }
-            allRabbis(model, rabbis);
-        }
-        return "showAll";
-    }
+
 
     private void searchAllOptions(String search, List<Rabbi> rabbis) {
-        rabbis.addAll(rabbiRepository.findByNameContaining(search));
+        rabbis.addAll(rabbiRepository.findByNameContainingAndNumIsNotNull(search));
         rabbis.addAll(rabbiRepository.findByNicknameContaining(search));
         rabbis.addAll(rabbiRepository.findByBirthLocation(search));
         rabbis.addAll(rabbiRepository.findByDeathLocation(search));
@@ -148,6 +165,7 @@ public class RabbiController {
         rabbi.setStudents(students);
         rabbi.setTeachers(teachers);
         model.addAttribute("rabbi", rabbi);
+        LOG.info("find rabbi by id: " + id);
 
         return "showRabbi";
     }
@@ -162,22 +180,28 @@ public class RabbiController {
         rabbi.setStudents(students);
         rabbi.setTeachers(teachers);
         model.addAttribute("rabbi", rabbi);
+        LOG.info("find rabbi by name: " + name);
+
         return "showRabbi";
     }
 
-    @RequestMapping(value = "/removeByName/{name}")
-    public String removeByName(@PathVariable String name, ModelMap model){
-        Rabbi r = rabbiRepository.findByName(name);
-        rabbiService.removeRabbi(r);
-        model.addAttribute("command", new Rabbi());
-        return "rabbi";
-    }
+//    @RequestMapping(value = "/removeByName/{name}")
+//    public String removeByName(@PathVariable String name, ModelMap model){
+//        Rabbi r = rabbiRepository.findByName(name);
+//        rabbiService.removeRabbi(r);
+//        model.addAttribute("command", new Rabbi());
+//        LOG.info("remove rabbi by name: " + name);
+//
+//        return "rabbi";
+//    }
 
     @RequestMapping(value = "/remove/{num}")
     public String removeByNum(@PathVariable String num, ModelMap model){
         Integer n = Integer.parseInt(num);
         rabbiRepository.deleteByNum(n);
         model.addAttribute("command", new Rabbi());
+        LOG.info("remove rabbi by num: " + num);
+
         return "rabbi";
     }
 
@@ -186,6 +210,8 @@ public class RabbiController {
         List<Rabbi> rabbis = rabbiRepository.findAll();
 
         allRabbis(model, rabbis);
+        LOG.info("show all id");
+
         return "showAll";
     }
 
@@ -204,6 +230,8 @@ public class RabbiController {
     @RequestMapping(value = "/all")
     public String findAllWithNum(ModelMap model){
         getAll(model);
+        LOG.info("show all");
+
         return "showAll";
     }
 

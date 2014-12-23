@@ -26,4 +26,6 @@ public interface RabbiDao {
 
     List<Rabbi> findByBook(String book);
     List<Rabbi> findByBookContaining(String book);
+
+    List<Rabbi> findByStudentNameContain(String name);
 }

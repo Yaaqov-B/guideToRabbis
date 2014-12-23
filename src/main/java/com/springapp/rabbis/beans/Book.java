@@ -2,13 +2,22 @@ package com.springapp.rabbis.beans;
 
 
 import com.springapp.rabbis.NamedBean;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.cache.annotation.CacheConfig;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+@org.springframework.cache.annotation.Cacheable
 
 @Entity(name = "book")
 @Table(name="book")
+//@Cacheable
+@CacheConfig(cacheNames = "searchResults")
+//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
+
 public class Book implements NamedBean{
     @Id
     @GeneratedValue

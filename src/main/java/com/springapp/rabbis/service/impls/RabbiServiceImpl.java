@@ -7,6 +7,8 @@ import com.springapp.rabbis.repositories.BookRepository;
 import com.springapp.rabbis.repositories.RabbiRepository;
 import com.springapp.rabbis.service.interfaces.BookService;
 import com.springapp.rabbis.service.interfaces.RabbiService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.impl.Log4JLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import java.util.List;
 @Transactional
 public class RabbiServiceImpl implements RabbiService{
 
+    private static Log LOG = new Log4JLogger(RabbiServiceImpl.class.getName());
 
     @Autowired
     private RabbiDao rabbiDao;
@@ -43,7 +46,6 @@ public class RabbiServiceImpl implements RabbiService{
     }
 
     public void updateRabbi(Rabbi newRabbi, Rabbi oldRabbi) {
-//        Rabbi oldRabbi = getRabbi(id);
         removeBooks(oldRabbi);
         copyRabbi(newRabbi, oldRabbi);
         setBooks(oldRabbi);
@@ -57,7 +59,6 @@ public class RabbiServiceImpl implements RabbiService{
         Rabbi oldRabbi = rabbiRepository.findByName(rabbi.getName());
         boolean toRemove = oldRabbi != null;
         if (toRemove){
-//            updateRabbi(rabbi, oldRabbi);
             System.out.println("remove rabbi : " + oldRabbi);
             removeRabbi(oldRabbi);
         }
@@ -72,6 +73,11 @@ public class RabbiServiceImpl implements RabbiService{
     @Override
     public List<Rabbi> findByBookContaining(String book) {
         return rabbiDao.findByBookContaining(book);
+    }
+
+    @Override
+    public List<Rabbi> findByStudentNameContain(String name) {
+        return rabbiDao.findByStudentNameContain(name);
     }
 
     private void removeBooks(Rabbi rabbi) {
@@ -139,10 +145,8 @@ public class RabbiServiceImpl implements RabbiService{
         return rabbiDao.getRabbiByName(name);
     }
 
-    //    @Override
     private Rabbi addIfNotExistRabbi(Rabbi rabbi) {
         String name = rabbi.getName();
-//        Rabbi byName = getRabbiByName(name);
         Rabbi byName = rabbiRepository.findByName(name);
         if (byName == null){
             rabbiDao.addRabbi(rabbi);
@@ -170,22 +174,4 @@ public class RabbiServiceImpl implements RabbiService{
 
     }
 
-//    private void updateBooks(Rabbi rabbi){
-//        List<Book> books = rabbi.getBooks();
-//        Iterator<Book> iterator = books.iterator();
-//        List<Book> toAdd = new ArrayList<Book>();
-//        System.out.println(rabbi.getBooks());
-//        while (iterator.hasNext()){
-//            Book book = iterator.next();
-//            Book byName = bookRepository.findByNameAndRabbi_Id(book.getName(), rabbi.getId());
-//            if (byName != null){
-//                System.out.println("REMOVE : " + book + ", ADDING " + byName);
-//                iterator.remove();
-//                toAdd.add(byName);
-//            } else {
-//                book.setRabbi(rabbi);
-//            }
-//        }
-//        books.addAll(toAdd);
-//    }
 }

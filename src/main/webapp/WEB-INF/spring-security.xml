@@ -10,6 +10,8 @@
     <http auto-config="true">
         <intercept-url pattern="/update/**" access="ROLE_USER" />
         <intercept-url pattern="/remove/**" access="ROLE_USER" />
+        <intercept-url pattern="/rabbi" access="ROLE_USER" />
+        <intercept-url pattern="/addRabbi" access="ROLE_USER" />
     </http>
 
     <authentication-manager alias="authenticationManager">

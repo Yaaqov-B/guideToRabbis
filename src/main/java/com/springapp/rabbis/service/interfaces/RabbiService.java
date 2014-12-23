@@ -11,7 +11,6 @@ import java.util.List;
 public interface RabbiService {
 
     void addRabbi(Rabbi rabbi);
-//    void updateRabbi(Rabbi rabbi, Integer id);
     void removeRabbi(Rabbi rabbi);
     Rabbi getRabbi(int id);
     Rabbi getRabbiByNum(int num);
@@ -30,6 +29,7 @@ public interface RabbiService {
     List<Rabbi> findByBook(String book);
     List<Rabbi> findByBookContaining(String book);
 
+    List<Rabbi> findByStudentNameContain(String name);
 
-//    Rabbi addIfNotExistRabbi(Rabbi rabbi);
+
 }

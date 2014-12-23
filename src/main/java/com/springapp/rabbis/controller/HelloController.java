@@ -13,14 +13,14 @@ import java.util.Locale;
 //@RequestMapping("/")
 public class HelloController {
 
-    @Autowired
-    private MessageSource messageSource;
-	@RequestMapping(method = RequestMethod.GET)
-	public String printWelcome(ModelMap model ,Locale locale) {
-//        String message = messageSource.getMessage("message.title", null, locale );
-//		model.addAttribute("message", message);
-		return "defaultTemplate";
-	}
+//    @Autowired
+//    private MessageSource messageSource;
+//	@RequestMapping(method = RequestMethod.GET)
+//	public String printWelcome(ModelMap model ,Locale locale) {
+////        String message = messageSource.getMessage("message.title", null, locale );
+////		model.addAttribute("message", message);
+//		return "defaultTemplate";
+//	}
 
 //	@RequestMapping("/template")
 //	public String print(ModelMap model ,Locale locale) {

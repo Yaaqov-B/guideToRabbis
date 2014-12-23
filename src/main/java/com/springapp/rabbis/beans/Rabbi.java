@@ -1,14 +1,23 @@
 package com.springapp.rabbis.beans;
 
 import com.springapp.rabbis.NamedBean;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.cache.annotation.*;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.persistence.*;
+//import javax.persistence.Cacheable;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+
 @Entity(name = "rabbi")
 @Table(name="rabbi")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
+@org.springframework.cache.annotation.Cacheable
+@CacheConfig(cacheNames = "searchResults")
 public class Rabbi implements NamedBean{
     @GeneratedValue
     @Id
