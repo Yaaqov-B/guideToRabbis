@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "hiberante")
 
 @Repository
 @Transactional

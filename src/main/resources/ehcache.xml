@@ -1,0 +1,51 @@
+<ehcache>
+    <diskStore path="C:/Users/home-lt/IdeaProjects/mvc1/cache"/>
+    <sizeOfPolicy maxDepth="400000000" maxDepthExceededBehavior="continue"/>
+    <defaultCache
+            name="guide"
+            eternal="false"
+            timeToIdleSeconds="120000"
+            timeToLiveSeconds="120000"
+            maxEntriesLocalHeap="20000"
+            diskExpiryThreadIntervalSeconds="1200000"
+            memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+
+    <cache name="rabbis"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+ <cache name="students"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+ <cache name="teachers"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="books"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="hibernate"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="searchResults"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+</ehcache>

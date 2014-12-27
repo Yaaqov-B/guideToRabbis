@@ -11,15 +11,15 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
-@CacheConfig(cacheNames = "searchResults")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
+@CacheConfig(cacheNames = "rabbis")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "hiberante")
 
 @Repository
 @Transactional
 public interface RabbiRepository extends JpaRepository<Rabbi, Long> {
-    @Cacheable
+    @Cacheable(value = "rabbis")
     Rabbi findByName(String name);
-    @Cacheable
+    @Cacheable(value = "rabbis")
     Rabbi findByNum(int num);
     @Cacheable
     List<Rabbi> findByNumIsNotNullOrderByNumAsc();

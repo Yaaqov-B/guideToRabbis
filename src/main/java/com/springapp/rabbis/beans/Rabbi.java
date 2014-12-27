@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity(name = "rabbi")
 @Table(name="rabbi")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "hiberante")
 @org.springframework.cache.annotation.Cacheable
 @CacheConfig(cacheNames = "searchResults")
 public class Rabbi implements NamedBean{

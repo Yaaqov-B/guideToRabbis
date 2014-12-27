@@ -17,7 +17,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Transactional()
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
 @Repository("rabbiDao")
 @CacheConfig(cacheNames = "searchResults")
 public class RabbiDaoImpl implements RabbiDao {
@@ -32,12 +32,12 @@ public class RabbiDaoImpl implements RabbiDao {
     public void removeRabbi(Rabbi rabbi) {
         em.remove(rabbi);
     }
-    @Cacheable
+    @Cacheable(value = "rabbis")
     @Override
     public Rabbi getRabbi(int id) {
         return em.find(Rabbi.class, id);
     }
-    @Cacheable
+    @Cacheable(value = "rabbis")
     @Override
     public Rabbi getRabbi(String name) {
         TypedQuery<Rabbi> query = em.createQuery("select r from rabbi r where r.name= ?1", Rabbi.class);
@@ -48,14 +48,14 @@ public class RabbiDaoImpl implements RabbiDao {
         return resultList.get(0);
 
     }
-    @Cacheable
+    @Cacheable(value = "students")
     @Override
     public List<Rabbi> getStudents(int id) {
         Query query = em.createQuery("select r.students from rabbi r where r.id= ?1");
         query.setParameter(1, id);
         return query.getResultList();
     }
-    @Cacheable
+    @Cacheable(value = "teachers")
     @Override
     public List<Rabbi> getTeachers(int id) {
         Query query = em.createQuery("select r.teachers from rabbi r where r.id= ?1");
@@ -63,7 +63,7 @@ public class RabbiDaoImpl implements RabbiDao {
         return query.getResultList();
     }
 
-    @Cacheable
+    @Cacheable(value = "rabbis")
     @Override
     public Rabbi getRabbiByNum(int num) {
         TypedQuery<Rabbi> query = em.createQuery("select r from rabbi r where r.num= ?1", Rabbi.class);
@@ -74,7 +74,7 @@ public class RabbiDaoImpl implements RabbiDao {
         return resultList.get(0);
     }
 
-    @Cacheable
+    @Cacheable(value = "students")
     @Override
     public List<Rabbi> getStudentsByNum(int num) {
         Query query = em.createQuery("select r.students from rabbi r where r.num= ?1");
@@ -82,7 +82,7 @@ public class RabbiDaoImpl implements RabbiDao {
         return query.getResultList();
     }
 
-    @Cacheable
+    @Cacheable(value = "teachers")
     @Override
     public List<Rabbi> getTeachersByNum(int num) {
         Query query = em.createQuery("select r.teachers from rabbi r where r.num= ?1");
@@ -90,7 +90,7 @@ public class RabbiDaoImpl implements RabbiDao {
         return query.getResultList();
     }
 
-    @Cacheable
+    @Cacheable(value = "rabbis")
     @Override
     public Rabbi getRabbiByName(String name) {
         TypedQuery<Rabbi> query = em.createQuery("select r from rabbi r where r.name = ?1", Rabbi.class);
@@ -99,7 +99,7 @@ public class RabbiDaoImpl implements RabbiDao {
 
     }
 
-    @Cacheable
+    @Cacheable(value = "books")
     @Override
     public List<Rabbi> findByBook(String book) {
         Query query = em.createQuery("select r from rabbi r, book b where b.name = ?1 and b.rabbi = r");
@@ -115,7 +115,7 @@ public class RabbiDaoImpl implements RabbiDao {
         return query.getResultList();
     }
 
-    @Cacheable
+//    @Cacheable
     @Override
     public List<Rabbi> findByStudentNameContain(String name) {
 //        Query query = em.createQuery("select r from rabbi r where r.students = ?1 ");

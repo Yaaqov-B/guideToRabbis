@@ -14,9 +14,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity(name = "book")
 @Table(name="book")
-//@Cacheable
-@CacheConfig(cacheNames = "searchResults")
-//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
+@Cacheable
+@CacheConfig(cacheNames = "books")
 
 public class Book implements NamedBean{
     @Id

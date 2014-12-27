@@ -6,7 +6,7 @@ import com.springapp.rabbis.repositories.BookRepository;
 import com.springapp.rabbis.repositories.RabbiRepository;
 import com.springapp.rabbis.service.interfaces.BookService;
 import com.springapp.rabbis.service.interfaces.RabbiService;
-import com.springapp.rabbis.toolkit.HebrewToGeorgian;
+import com.springapp.rabbis.toolkit.Toolkit;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.impl.Log4JLogger;
@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class RabbiController {
@@ -32,16 +30,45 @@ public class RabbiController {
     BookRepository bookRepository;
     @Autowired(required = true)
     RabbiRepository rabbiRepository;
-    private static HebrewToGeorgian hebrewToGeorgian = new HebrewToGeorgian();
+    private static Toolkit hebrewToGeorgian = new Toolkit();
 
     private static Log LOG = new Log4JLogger(RabbiController.class.getName());
     @RequestMapping(value = "/" , method = RequestMethod.GET)
-	public String home() {
-		return "defaultTemplate";
-	}
+    public String home() {
+        return "defaultTemplate";
+    }
+
+    @RequestMapping(value = "/search/{search}", method = RequestMethod.GET)
+    public String explicitSearch(@PathVariable("search") String search, ModelMap model) {
+        return doSearch(search, model);
+    }
+
+    @RequestMapping(value = "/searchBook/{search}", method = RequestMethod.GET)
+    public String searchBook(@PathVariable("search") String search, ModelMap model){
+        List<Rabbi> rabbis = rabbiService.findByBookContaining(search);
+        allRabbis(model, rabbis);
+        return "showAll";
+
+    }
+
+    @RequestMapping(value = "/searchRabbi/{search}", method = RequestMethod.GET)
+    public String searchRabbi(@PathVariable("search") String search, ModelMap model){
+        search = Toolkit.removeBracketsContent(search);
+        List<Rabbi> rabbis = rabbiRepository.findByNameContainingAndNumIsNotNull(search);
+        rabbis.addAll(rabbiRepository.findByNicknameContaining(search));
+
+        allRabbis(model, rabbis);
+        return "showAll";
+
+    }
+
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String search(@ModelAttribute("search") String search, ModelMap model){
+        return doSearch(search, model);
+    }
+
+    private String doSearch(String search, ModelMap model) {
         if (search == null || search.trim().isEmpty()){
             getAll(model);
             LOG.info("search for all");
@@ -216,7 +243,8 @@ public class RabbiController {
     }
 
     private void allRabbis(ModelMap model, List<Rabbi> rabbis) {
-        for (Rabbi rabbi: rabbis){
+        Set<Rabbi> r = new HashSet(rabbis);
+        for (Rabbi rabbi: r){
             Integer rabbiId = rabbi.getId();
             List<Rabbi> students = rabbiService.getStudents(rabbiId);
             List<Rabbi> teachers = rabbiService.getTeachers(rabbiId);
@@ -224,7 +252,7 @@ public class RabbiController {
             rabbi.setTeachers(teachers);
         }
 
-        model.addAttribute("rabbis", rabbis);
+        model.addAttribute("rabbis", r);
     }
 
     @RequestMapping(value = "/all")

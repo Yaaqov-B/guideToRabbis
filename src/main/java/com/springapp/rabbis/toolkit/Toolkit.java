@@ -3,10 +3,10 @@ package com.springapp.rabbis.toolkit;
 /**
  * Created by home-lt on 01/12/14.
  */
-public class HebrewToGeorgian {
+public class Toolkit {
 
     public static void main(String[] args){
-        HebrewToGeorgian hebrewToGeorgian = new HebrewToGeorgian();
+        Toolkit hebrewToGeorgian = new Toolkit();
         String yearToGeorgian = hebrewToGeorgian.convertHebrewYearToGeorgian("התשמב");
         System.out.println(yearToGeorgian);
         String year = hebrewToGeorgian.formatHebrewYear("התשמב");
@@ -20,6 +20,13 @@ public class HebrewToGeorgian {
         System.out.println(hebrewToGeorgian.formatHebrewYearSimple(year));
         year = "ד' תשמ\"ב";
         System.out.println(hebrewToGeorgian.formatHebrewYearSimple(year));
+
+        System.out.println(removeBracketsContent("efeewfewf(efef)"));
+    }
+
+    public static String removeBracketsContent(String str){
+        str = str.replaceAll("\\(.*\\)", "");
+        return str;
 
     }
 

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "searchResults")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "hiberante")
 
 @Transactional(propagation = Propagation.REQUIRED)
 @Repository("bookDao")
