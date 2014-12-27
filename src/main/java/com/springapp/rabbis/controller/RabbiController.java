@@ -61,6 +61,48 @@ public class RabbiController {
         return "showAll";
 
     }
+    @RequestMapping(value = "/searchRabbiNickname/{search}", method = RequestMethod.GET)
+    public String searchRabbiNickname(@PathVariable("search") String search, ModelMap model){
+        search = Toolkit.removeBracketsContent(search);
+        List<Rabbi> rabbis = rabbiRepository.findByNicknameContaining(search);
+
+        allRabbis(model, rabbis);
+        return "showAll";
+
+    }
+
+    @RequestMapping(value = "/searchBorn/{search}", method = RequestMethod.GET)
+    public String searchBorn(@PathVariable("search") String search, ModelMap model){
+        search = Toolkit.removeBracketsContent(search);
+        List<Rabbi> rabbis = rabbiRepository.findByBorn(search);
+        allRabbis(model, rabbis);
+        return "showAll";
+    }
+
+    @RequestMapping(value = "/searchDied/{search}", method = RequestMethod.GET)
+    public String searchDied(@PathVariable("search") String search, ModelMap model){
+        search = Toolkit.removeBracketsContent(search);
+        List<Rabbi> rabbis = rabbiRepository.findByDied(search);
+        allRabbis(model, rabbis);
+        return "showAll";
+    }
+
+
+    @RequestMapping(value = "/searchDeathLocation/{search}", method = RequestMethod.GET)
+    public String searchDeathLocation(@PathVariable("search") String search, ModelMap model){
+        search = Toolkit.removeBracketsContent(search);
+        List<Rabbi> rabbis = rabbiRepository.findByDeathLocation(search);
+        allRabbis(model, rabbis);
+        return "showAll";
+    }
+
+    @RequestMapping(value = "/searchBirthLocation/{search}", method = RequestMethod.GET)
+    public String searchBirthLocation(@PathVariable("search") String search, ModelMap model){
+        search = Toolkit.removeBracketsContent(search);
+        List<Rabbi> rabbis = rabbiRepository.findByBirthLocation(search);
+        allRabbis(model, rabbis);
+        return "showAll";
+    }
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
