@@ -46,7 +46,7 @@ public class RabbiController {
     @RequestMapping(value = "/searchBook/{search}", method = RequestMethod.GET)
     public String searchBook(@PathVariable("search") String search, ModelMap model){
         List<Rabbi> rabbis = rabbiService.findByBookContaining(search);
-        allRabbis(model, rabbis);
+        allRabbisSorted(model, rabbis);
         return "showAll";
 
     }
@@ -57,7 +57,7 @@ public class RabbiController {
         List<Rabbi> rabbis = rabbiRepository.findByNameContainingAndNumIsNotNull(search);
         rabbis.addAll(rabbiRepository.findByNicknameContaining(search));
 
-        allRabbis(model, rabbis);
+        allRabbisSorted(model, rabbis);
         return "showAll";
 
     }
@@ -66,7 +66,7 @@ public class RabbiController {
         search = Toolkit.removeBracketsContent(search);
         List<Rabbi> rabbis = rabbiRepository.findByNicknameContaining(search);
 
-        allRabbis(model, rabbis);
+        allRabbisSorted(model, rabbis);
         return "showAll";
 
     }
@@ -75,7 +75,7 @@ public class RabbiController {
     public String searchBorn(@PathVariable("search") String search, ModelMap model){
         search = Toolkit.removeBracketsContent(search);
         List<Rabbi> rabbis = rabbiRepository.findByBorn(search);
-        allRabbis(model, rabbis);
+        allRabbisSorted(model, rabbis);
         return "showAll";
     }
 
@@ -83,7 +83,16 @@ public class RabbiController {
     public String searchDied(@PathVariable("search") String search, ModelMap model){
         search = Toolkit.removeBracketsContent(search);
         List<Rabbi> rabbis = rabbiRepository.findByDied(search);
-        allRabbis(model, rabbis);
+        allRabbisSorted(model, rabbis);
+        return "showAll";
+    }
+
+    @RequestMapping(value = "/searchYear/{search}", method = RequestMethod.GET)
+    public String searchYear(@PathVariable("search") String search, ModelMap model){
+        search = Toolkit.removeBracketsContent(search);
+        List<Rabbi> rabbis = rabbiRepository.findByBorn(search);
+        rabbis.addAll(rabbiRepository.findByDied(search));
+        allRabbisSorted(model, rabbis);
         return "showAll";
     }
 
@@ -92,7 +101,7 @@ public class RabbiController {
     public String searchDeathLocation(@PathVariable("search") String search, ModelMap model){
         search = Toolkit.removeBracketsContent(search);
         List<Rabbi> rabbis = rabbiRepository.findByDeathLocation(search);
-        allRabbis(model, rabbis);
+        allRabbisSorted(model, rabbis);
         return "showAll";
     }
 
@@ -100,10 +109,19 @@ public class RabbiController {
     public String searchBirthLocation(@PathVariable("search") String search, ModelMap model){
         search = Toolkit.removeBracketsContent(search);
         List<Rabbi> rabbis = rabbiRepository.findByBirthLocation(search);
-        allRabbis(model, rabbis);
+        allRabbisSorted(model, rabbis);
         return "showAll";
     }
 
+    @RequestMapping(value = "/searchLocation/{search}", method = RequestMethod.GET)
+    public String searchLocation(@PathVariable("search") String search, ModelMap model){
+        search = Toolkit.removeBracketsContent(search);
+        List<Rabbi> rabbis = rabbiRepository.findByBirthLocation(search);
+        rabbis.addAll(rabbiRepository.findByDeathLocation(search));
+
+        allRabbisSorted(model, rabbis);
+        return "showAll";
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String search(@ModelAttribute("search") String search, ModelMap model){
@@ -131,7 +149,7 @@ public class RabbiController {
                 String other = search.substring(0, length -1).concat("\"").concat(search.substring(length -1, length));
                 searchAllOptions(other, rabbis);
             }
-            allRabbis(model, rabbis);
+            allRabbisSorted(model, rabbis);
         }
         return "showAll";
     }
@@ -278,15 +296,16 @@ public class RabbiController {
     public String findAll(ModelMap model){
         List<Rabbi> rabbis = rabbiRepository.findAll();
 
-        allRabbis(model, rabbis);
+        allRabbisSorted(model, rabbis);
         LOG.info("show all id");
 
         return "showAll";
     }
 
-    private void allRabbis(ModelMap model, List<Rabbi> rabbis) {
-        Set<Rabbi> r = new HashSet(rabbis);
-        for (Rabbi rabbi: r){
+
+    private void allRabbis(ModelMap model, Collection<Rabbi> rabbis) {
+
+        for (Rabbi rabbi: rabbis){
             Integer rabbiId = rabbi.getId();
             List<Rabbi> students = rabbiService.getStudents(rabbiId);
             List<Rabbi> teachers = rabbiService.getTeachers(rabbiId);
@@ -294,7 +313,21 @@ public class RabbiController {
             rabbi.setTeachers(teachers);
         }
 
-        model.addAttribute("rabbis", r);
+        model.addAttribute("rabbis", rabbis);
+    }
+    private void allRabbisSorted(ModelMap model, List<Rabbi> rabbis) {
+        Set<Rabbi> r = new TreeSet<Rabbi>(new Comparator<Rabbi>() {
+            @Override
+            public int compare(Rabbi o1, Rabbi o2) {
+                Integer id1 = o1.getNum();
+                Integer id2 = o2.getNum();
+                if (id1> id2) return 1;
+                if (id1 <id2) return -1;
+                return 0;
+            }
+        });
+        r.addAll(rabbis);
+        allRabbis(model, r);
     }
 
     @RequestMapping(value = "/all")

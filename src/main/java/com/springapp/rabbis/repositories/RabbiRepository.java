@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface RabbiRepository extends JpaRepository<Rabbi, Long> {
-    @Cacheable(value = "rabbis")
+    @Cacheable(value = "exactName")
     Rabbi findByName(String name);
     @Cacheable(value = "rabbis")
     Rabbi findByNum(int num);
@@ -25,19 +25,19 @@ public interface RabbiRepository extends JpaRepository<Rabbi, Long> {
     List<Rabbi> findByNumIsNotNullOrderByNumAsc();
     @Cacheable
     List<Rabbi> findByNameContainingAndNumIsNotNull(String name);
-    @Cacheable
+    @Cacheable(value = "nickname")
     List<Rabbi> findByNicknameContaining(String name);
-    @Cacheable
+    @Cacheable(value = "birthLocation")
     List<Rabbi> findByBirthLocation(String name);
-    @Cacheable
+    @Cacheable(value = "deathLocation")
     List<Rabbi> findByDeathLocation(String name);
-    @Cacheable
+    @Cacheable(value = "born")
     List<Rabbi> findByBorn(String name);
-    @Cacheable
+    @Cacheable(value = "died")
     List<Rabbi> findByDied(String name);
-    @Cacheable
+//    @Cacheable
     List<Rabbi> findByBornGeorgian(String name);
-    @Cacheable
+//    @Cacheable
     List<Rabbi> findByDiedGeorgian(String name);
     void deleteByName(String name);
 

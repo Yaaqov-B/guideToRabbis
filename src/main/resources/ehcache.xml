@@ -36,6 +36,52 @@
            overflowToDisk="true"
            maxElementsOnDisk="1000000"
            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="born"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="died"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="birthLocation"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="deathLocation"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="nickname"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="exactName"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="num"
+           maxBytesLocalHeap="100M"
+           eternal="true"
+           overflowToDisk="true"
+           maxElementsOnDisk="1000000"
+           memoryStoreEvictionPolicy="LRU"/>
     <cache name="hibernate"
            maxBytesLocalHeap="100M"
            eternal="true"

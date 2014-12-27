@@ -44,11 +44,11 @@
             <td><b><spring:message code="message.born" /></b></td>
             <c:if test="${rabbi.born.length() >0}">
                 <td>
-                    <a href='/mvc1/searchBorn/<c:out value="${rabbi.born}"/>'>${rabbi.born}</a> (${rabbi.bornGeorgian})
+                    <a href='/mvc1/searchYear/<c:out value="${rabbi.born}"/>'>${rabbi.born}</a> (${rabbi.bornGeorgian})
                 </td>
             </c:if>
             <c:if test="${rabbi.birthLocation.length() >0}">
-                <td><td><a href='/mvc1/searchBirthLocation/<c:out value="${rabbi.birthLocation}"/>'>${rabbi.birthLocation}</a></td>
+                <td><td><a href='/mvc1/searchLocation/<c:out value="${rabbi.birthLocation}"/>'>${rabbi.birthLocation}</a></td>
             </c:if>
         </tr>
         </c:if>
@@ -57,10 +57,10 @@
         <tr id="died">
             <td><b><spring:message code="message.died" /></b></td>
             <c:if test="${rabbi.died.length() >0}">
-                <td><a href='/mvc1/searchDied/<c:out value="${rabbi.died}"/>'>${rabbi.died}</a> (${rabbi.diedGeorgian})</td>
+                <td><a href='/mvc1/searchYear/<c:out value="${rabbi.died}"/>'>${rabbi.died}</a> (${rabbi.diedGeorgian})</td>
             </c:if>
             <c:if test="${rabbi.deathLocation.length() >0}">
-                <td><td><a href='/mvc1/searchDeathLocation/<c:out value="${rabbi.deathLocation}"/>'>${rabbi.deathLocation}</a></td>
+                <td><td><a href='/mvc1/searchLocation/<c:out value="${rabbi.deathLocation}"/>'>${rabbi.deathLocation}</a></td>
             </c:if>
         </tr>
         </c:if>
