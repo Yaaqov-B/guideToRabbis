@@ -54,6 +54,9 @@ public class RabbiController {
     @RequestMapping(value = "/searchRabbi/{search}", method = RequestMethod.GET)
     public String searchRabbi(@PathVariable("search") String search, ModelMap model){
         search = Toolkit.removeBracketsContent(search);
+        if (search.startsWith("ה")){
+            search = search.substring(1);
+        }
         List<Rabbi> rabbis = rabbiRepository.findByNameContainingAndNumIsNotNull(search);
         rabbis.addAll(rabbiRepository.findByNicknameContaining(search));
 
@@ -169,11 +172,12 @@ public class RabbiController {
 //    }
 
     @RequestMapping(value = "/update/{num}")
-    public String updateRabbi(@PathVariable String num, ModelMap model){
-        int n = Integer.parseInt(num);
-        Rabbi rabbi = rabbiRepository.findByNum(n);
-        List<Rabbi> students = rabbiService.getStudents(rabbi.getId());
-        List<Rabbi> teachers = rabbiService.getTeachers(rabbi.getId());
+    public String updateRabbi(@PathVariable Integer num, ModelMap model){
+        Rabbi rabbi = rabbiRepository.findByNum(num);
+        Integer id = rabbi.getId();
+        List<Rabbi> students = rabbiService.getStudents(id);
+        List<Rabbi> teachers = rabbiService.getTeachers(id);
+        replaceWithNumberAndRelation(rabbi, students, teachers);
         rabbi.setStudents(students);
         rabbi.setTeachers(teachers);
         model.addAttribute("command", rabbi);
@@ -185,13 +189,28 @@ public class RabbiController {
         return "rabbi";
     }
 
+    private void replaceWithNumberAndRelation(Rabbi rabbi, List<Rabbi> students, List<Rabbi> teachers) {
+        String relation = rabbi.getRelation();
+        if (relation != null && !relation.isEmpty()){
+            String[] strings = relation.split("#");
+            for (int i =0; i< strings.length; i = i+2){
+                int num = Integer.parseInt(strings[i]);
+                String description = strings[i+1];
+                extractRelation(students, num, description);
+                extractRelation(teachers, num, description);
+            }
+        }
+    }
+
     @RequestMapping(value = "/addRabbi", method = RequestMethod.POST)
     public String addRabbi(@ModelAttribute("rabbi")Rabbi rabbi,
                            ModelMap model) {
         model.addAttribute("rabbi", rabbi);
         removeEmptyNameElements(rabbi.getBooks());
         removeEmptyNameElements(rabbi.getStudents());
+        extractLinks(rabbi.getStudents(), rabbi);
         removeEmptyNameElements(rabbi.getTeachers());
+        extractLinks(rabbi.getTeachers(), rabbi);
         boolean updated = rabbiService.removeIfExist(rabbi);
         updateGeorgian(rabbi);
         rabbiService.addRabbi(rabbi);
@@ -204,6 +223,32 @@ public class RabbiController {
 
         return "showRabbi";
     }
+
+
+
+    private void extractLinks(List<Rabbi> rabbis, Rabbi rabbi) {
+        ListIterator<Rabbi> iterator = rabbis.listIterator();
+        while (iterator.hasNext()){
+            Rabbi i = iterator.next();
+            String name = i.getName().trim();
+            if (StringUtils.isNumeric(name)){
+                int num = Integer.parseInt(name);
+                Rabbi r = rabbiRepository.findByNum(num);
+                iterator.set(r);
+            } else if (name.contains("#")){
+                int num = Integer.parseInt(name.split("#")[0]);
+                Rabbi r = rabbiRepository.findByNum(num);
+                iterator.set(r);
+                String relation = rabbi.getRelation();
+                if (relation == null){
+                    rabbi.setRelation(name);
+                } else {
+                    rabbi.setRelation(relation + name);
+                }
+            }
+        }
+    }
+
 
     private void updateGeorgian(Rabbi rabbi) {
         String born = rabbi.getBorn();
@@ -243,33 +288,42 @@ public class RabbiController {
         }
     }
 
+    @RequestMapping(value = "/rabbi/{num}", method = RequestMethod.GET)
+    public String findByNum(@PathVariable Integer num, ModelMap model) {
+        Rabbi rabbi = rabbiRepository.findByNum(num);
+        List<Rabbi> rabbis = new ArrayList<Rabbi>();
+        rabbis.add(rabbi);
+        allRabbis(model, rabbis);
+        return "showAll";
+    }
+
     @RequestMapping(value="/findRabbi/{id}")
-    public String getRabbi(@PathVariable String id, ModelMap model){
-        int rabbiId = Integer.parseInt(id);
-        Rabbi rabbi = rabbiService.getRabbi(rabbiId);
-        List<Rabbi> students = rabbiService.getStudents(rabbiId);
-        List<Rabbi> teachers = rabbiService.getTeachers(rabbiId);
-        rabbi.setStudents(students);
-        rabbi.setTeachers(teachers);
+    public String getRabbi(@PathVariable int id, ModelMap model){
+        Rabbi rabbi = rabbiService.getRabbi(id);
+        setStudentsAndTeachers(rabbi, id);
         model.addAttribute("rabbi", rabbi);
         LOG.info("find rabbi by id: " + id);
 
         return "showRabbi";
     }
 
+    @RequestMapping(value="/findRabbi/{id}/{graph}")
+    public String getRabbiGraph(@PathVariable int id, @PathVariable int graph, ModelMap model){
+        Rabbi rabbi = rabbiService.getRabbi(id);
+        setStudentsAndTeachers(rabbi, id);
+        model.addAttribute("rabbi", rabbi);
+        LOG.info("find rabbi by id: " + id);
+
+        return "showRabbiGraph" + graph;
+    }
+
     @RequestMapping(value = "/findByName/{name}")
     public String findByName(@PathVariable String name, ModelMap model){
         Rabbi rabbi = rabbiRepository.findByName(name);
-
-        Integer rabbiId = rabbi.getId();
-        List<Rabbi> students = rabbiService.getStudents(rabbiId);
-        List<Rabbi> teachers = rabbiService.getTeachers(rabbiId);
-        rabbi.setStudents(students);
-        rabbi.setTeachers(teachers);
-        model.addAttribute("rabbi", rabbi);
-        LOG.info("find rabbi by name: " + name);
-
-        return "showRabbi";
+        List<Rabbi> rabbis = new ArrayList<Rabbi>();
+        rabbis.add(rabbi);
+        allRabbis(model, rabbis);
+        return "showAll";
     }
 
 //    @RequestMapping(value = "/removeByName/{name}")
@@ -307,14 +361,63 @@ public class RabbiController {
 
         for (Rabbi rabbi: rabbis){
             Integer rabbiId = rabbi.getId();
-            List<Rabbi> students = rabbiService.getStudents(rabbiId);
-            List<Rabbi> teachers = rabbiService.getTeachers(rabbiId);
-            rabbi.setStudents(students);
-            rabbi.setTeachers(teachers);
+            setStudentsAndTeachers(rabbi, rabbiId);
         }
 
         model.addAttribute("rabbis", rabbis);
     }
+
+    private void setStudentsAndTeachers(Rabbi rabbi, Integer rabbiId) {
+        List<Rabbi> students = rabbiService.getStudents(rabbiId);
+        List<Rabbi> teachers = rabbiService.getTeachers(rabbiId);
+        updateRelation(rabbi, students, teachers);
+        rabbi.setStudents(students);
+        rabbi.setTeachers(teachers);
+    }
+
+    private void updateRelation(Rabbi rabbi, List<Rabbi> students, List<Rabbi> teachers) {
+        String relation = rabbi.getRelation();
+        if (relation != null && !relation.isEmpty()){
+            String[] strings = relation.split("#");
+            for (int i =0; i< strings.length; i = i+2){
+                int num = Integer.parseInt(strings[i]);
+                String description = strings[i+1];
+                addRelation(students, num, description);
+                addRelation(teachers, num, description);
+            }
+        }
+    }
+
+    private void extractRelation(List<Rabbi> rabbis, int num, String description) {
+        ListIterator<Rabbi> iterator = rabbis.listIterator();
+        while (iterator.hasNext()){
+            Rabbi i = iterator.next();
+            Integer iNum = i.getNum();
+            if (iNum != null){
+                if(iNum == num) {
+                    i.setName(num + "#" + description);
+                } else{
+                    i.setName(num +"");
+                }
+            }
+        }
+    }
+
+    private void addRelation(List<Rabbi> rabbis, int num, String description) {
+        ListIterator<Rabbi> iterator = rabbis.listIterator();
+        while (iterator.hasNext()){
+            Rabbi i = iterator.next();
+            Integer iNum = i.getNum();
+            String nickname = i.getNickname();
+            if (nickname != null){
+                i.setName(i.getName() + ", " +i.getNickname());
+            }
+            if (iNum != null && iNum == num){
+                i.setName(i.getName() + " (" + description + ")");
+            }
+        }
+    }
+
     private void allRabbisSorted(ModelMap model, List<Rabbi> rabbis) {
         Set<Rabbi> r = new TreeSet<Rabbi>(new Comparator<Rabbi>() {
             @Override
@@ -337,6 +440,15 @@ public class RabbiController {
 
         return "showAll";
     }
+
+    @RequestMapping(value = "/timeline")
+    public String timeline(ModelMap model){
+        getAll(model);
+        LOG.info("show all");
+
+        return "timeline";
+    }
+
 
     private void getAll(ModelMap model) {
         List<Rabbi> rabbis = rabbiRepository.findByNumIsNotNullOrderByNumAsc();

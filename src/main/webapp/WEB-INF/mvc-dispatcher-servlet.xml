@@ -107,50 +107,15 @@
             </list>
         </property>
     </bean>
-    <cache:annotation-driven />
-    <!--<bean id="cacheManager"-->
-          <!--class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>-->
+    <!--<cache:annotation-driven />-->
 
-    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-        <property name="cacheManager" ref="ehcache"/>
-    </bean>
-    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="configLocation" value="classpath:ehcache.xml"/>
-        <property name="shared" value="true"/>
-    </bean>
-    <!-- EhCache library setup -->
-    <!--<bean id="ehcache"-->
-          <!--class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="ehcache.xml"/>-->
-
-    <!--<bean id="templateEngine"-->
-          <!--class="org.thymeleaf.spring4.SpringTemplateEngine">-->
-        <!--<property name="templateResolver" ref="templateResolver" />-->
-
-
+    <!--<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">-->
+        <!--<property name="cacheManager" ref="ehcache"/>-->
     <!--</bean>-->
-
-    <!--<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">-->
-        <!--<property name="templateEngine" ref="templateEngine" />-->
-        <!--<property name="order" value="1" />-->
-        <!--&lt;!&ndash;<property name="viewNames" value="*.html,*.xhtml" />&ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="viewNames" value="pages/*.html" />&ndash;&gt;-->
-
+    <!--<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
+        <!--<property name="configLocation" value="classpath:ehcache.xml"/>-->
+        <!--<property name="shared" value="true"/>-->
     <!--</bean>-->
-
-    <!--<bean id="templateResolver"-->
-          <!--class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">-->
-        <!--<property name="prefix" value="/WEB-INF/pages" />-->
-        <!--<property name="suffix" value=".html" />-->
-        <!--<property name="templateMode" value="HTML5" />-->
-    <!--</bean>   -->
-    <!---->
-    <!--<bean id="templateResolver"-->
-          <!--class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">-->
-        <!--<property name="prefix" value="/WEB-INF/pages" />-->
-        <!--<property name="suffix" value=".html" />-->
-        <!--<property name="templateMode" value="HTML5" />-->
-    <!--</bean>-->
-
 
 
 </beans>

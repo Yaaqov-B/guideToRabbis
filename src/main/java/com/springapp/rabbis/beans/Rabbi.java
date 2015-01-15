@@ -45,6 +45,9 @@ public class Rabbi implements NamedBean{
     private String deathLocation;
     @Column(name="DESCRIPTION")
     private String description;
+    @Column(name="RELATION")
+    private String relation;
+
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "rabbi"/*, orphanRemoval=true*/)
     private List<Book> books;
     @ManyToMany(/*cascade = CascadeType.ALL*/)
@@ -175,5 +178,13 @@ public class Rabbi implements NamedBean{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getRelation() {
+        return relation;
+    }
+
+    public void setRelation(String relation) {
+        this.relation = relation;
     }
 }
