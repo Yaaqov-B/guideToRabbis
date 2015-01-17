@@ -1,6 +1,9 @@
 <ehcache>
+
     <diskStore path="C:/Users/home-lt/IdeaProjects/mvc1/cache"/>
+
     <sizeOfPolicy maxDepth="400000000" maxDepthExceededBehavior="continue"/>
+
     <defaultCache
             name="guide"
             eternal="false"
@@ -17,13 +20,13 @@
            overflowToDisk="true"
            maxElementsOnDisk="1000000"
            memoryStoreEvictionPolicy="LRU"/>
- <cache name="students"
+    <cache name="students"
            maxBytesLocalHeap="100M"
            eternal="true"
            overflowToDisk="true"
            maxElementsOnDisk="1000000"
            memoryStoreEvictionPolicy="LRU"/>
- <cache name="teachers"
+    <cache name="teachers"
            maxBytesLocalHeap="100M"
            eternal="true"
            overflowToDisk="true"

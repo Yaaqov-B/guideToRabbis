@@ -160,6 +160,7 @@ public class RabbiServiceImpl implements RabbiService{
     }
 
     private void updateRabbis(List<Rabbi> rabbis) {
+        if (rabbis == null) return;
         Iterator<Rabbi> iterator = rabbis.iterator();
         List<Rabbi> toAdd = new ArrayList<Rabbi>();
         while (iterator.hasNext()){

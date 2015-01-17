@@ -55,6 +55,13 @@ public class RabbiTests {
     }
 
     @Test
+    public void addRabbi() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rabbiService.addRabbi(rashbi);
+
+    }
+
+    @Test
     public void test1() throws Exception {
         Rabbi rashbi = new Rabbi();
         List<Book> zohar = new ArrayList<Book>();
