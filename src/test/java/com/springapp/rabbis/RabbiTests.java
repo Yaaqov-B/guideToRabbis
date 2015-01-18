@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,10 +74,13 @@ public class RabbiTests {
     @Test
     public void addRabbiWithoutName() throws  Exception{
         Rabbi rashbi = new Rabbi();
-        rabbiService.addRabbi(rashbi);
-        boolean removed = rabbiService.removeIfExist(rashbi);
-        assertFalse(removed);
-
+        boolean error = false;
+        try {
+            rabbiService.addRabbi(rashbi);
+        } catch (PersistenceException e){
+            error = true;
+        }
+        assertTrue(error);
 
     }
 
@@ -84,12 +88,19 @@ public class RabbiTests {
     public void addRabbiWithSameName() throws  Exception{
         Rabbi rashbi = new Rabbi();
         rashbi.setName("rashbi");
-        rabbiService.addRabbi(rashbi);
         rashbi = new Rabbi();
         rashbi.setName("rashbi");
         rabbiService.addRabbi(rashbi);
-        boolean removed = rabbiService.removeIfExist(rashbi);
-        assertTrue(removed);
+        Rabbi rabbi = rabbiService.getRabbi(rashbi.getId());
+        assertNotNull(rabbi);
+        boolean error = false;
+        try {
+            rabbiService.addRabbi(rashbi);
+        } catch (PersistenceException e){
+            error = true;
+        }
+        assertTrue(error);
+
 
     }
 

@@ -27,7 +27,7 @@ public class Rabbi implements NamedBean{
     private Integer num;
     @NotEmpty
     @NotNull
-    @Column(name="NAME", unique=true)
+    @Column(name="NAME", unique=true, nullable = false)
     private String name;
     @Column(name="NICKNAME")
     private String nickname;
