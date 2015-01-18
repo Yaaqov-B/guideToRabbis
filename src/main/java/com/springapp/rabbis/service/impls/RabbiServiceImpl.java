@@ -40,7 +40,9 @@ public class RabbiServiceImpl implements RabbiService{
     }
 
     private void setBooks(Rabbi rabbi) {
-        for (Book book:rabbi.getBooks()){
+        List<Book> books = rabbi.getBooks();
+        if (books == null) return;
+        for (Book book: books){
             book.setRabbi(rabbi);
         }
     }
@@ -60,6 +62,7 @@ public class RabbiServiceImpl implements RabbiService{
         boolean toRemove = oldRabbi != null;
         if (toRemove){
             System.out.println("remove rabbi : " + oldRabbi);
+            LOG.info("remove rabbi : " + oldRabbi);
             removeRabbi(oldRabbi);
         }
         return toRemove;
@@ -78,6 +81,11 @@ public class RabbiServiceImpl implements RabbiService{
     @Override
     public List<Rabbi> findByStudentNameContain(String name) {
         return rabbiDao.findByStudentNameContain(name);
+    }
+
+    @Override
+    public void updateRabbi(Rabbi rabbi) {
+        rabbiDao.updateRabbi(rabbi);
     }
 
     private void removeBooks(Rabbi rabbi) {

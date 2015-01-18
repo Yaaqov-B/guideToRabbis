@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
+@ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet-test.xml")
 public class RabbiTests {
     private MockMvc mockMvc;
 
@@ -57,8 +58,171 @@ public class RabbiTests {
     @Test
     public void addRabbi() throws  Exception{
         Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
         rabbiService.addRabbi(rashbi);
+        boolean removed = rabbiService.removeIfExist(rashbi);
+        assertTrue(removed);
+        rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        removed = rabbiService.removeIfExist(rashbi);
+        assertTrue(removed);
 
+    }
+
+    @Test
+    public void addRabbiWithoutName() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rabbiService.addRabbi(rashbi);
+        boolean removed = rabbiService.removeIfExist(rashbi);
+        assertFalse(removed);
+
+
+    }
+
+    @Test
+    public void addRabbiWithSameName() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        boolean removed = rabbiService.removeIfExist(rashbi);
+        assertTrue(removed);
+
+    }
+
+    @Test
+    public void updateRabbi() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        Rabbi rabbi = rabbiService.getRabbi(rashbi.getId());
+        assertNotNull(rabbi);
+        String name = "rashbi2";
+        rashbi.setName(name);
+        rabbiService.updateRabbi(rashbi);
+        rabbi = rabbiService.getRabbi(rashbi.getId());
+        assertTrue(rabbi.getName().equals(name));
+        boolean removed = rabbiService.removeIfExist(rashbi);
+        assertTrue(removed);
+    }
+
+    @Test
+    public void addRabbiWithStudents() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        Rabbi rabbi = rabbiService.getRabbi(rashbi.getId());
+        assertNotNull(rabbi);
+        List<Rabbi>students = new ArrayList<Rabbi>();
+        Rabbi student1 = new Rabbi();
+        student1.setName("student1");
+        Rabbi student2 = new Rabbi();
+        student2.setName("student2");
+        students.add(student1);
+        students.add(student2);
+        rabbiService.addRabbi(student1);
+        rabbiService.addRabbi(student2);
+
+        rashbi.setStudents(students);
+        rabbiService.updateRabbi(rashbi);
+        Integer rashbiId = rashbi.getId();
+        rabbi = rabbiService.getRabbi(rashbiId);
+        students = rabbiService.getStudents(rashbiId);
+
+        assertNotNull(rabbi);
+        for (Rabbi student: students){
+            System.out.println(student);
+        }
+        assertTrue(students.size() ==2);
+    }
+
+    @Test
+    public void updateStudents() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        Rabbi rabbi = rabbiService.getRabbi(rashbi.getId());
+        assertNotNull(rabbi);
+        List<Rabbi>students = new ArrayList<Rabbi>();
+        Rabbi student1 = new Rabbi();
+        student1.setName("student1");
+        Rabbi student2 = new Rabbi();
+        student2.setName("student2");
+        students.add(student1);
+        rabbiService.addRabbi(student1);
+        rabbiService.addRabbi(student2);
+
+        rashbi.setStudents(students);
+        rabbiService.updateRabbi(rashbi);
+        Integer rashbiId = rashbi.getId();
+        rabbi = rabbiService.getRabbi(rashbiId);
+        students = rabbiService.getStudents(rashbiId);
+
+        assertNotNull(rabbi);
+        for (Rabbi student: students){
+            System.out.println(student);
+        }
+
+        students.clear();
+        students.add(student2);
+
+        rashbi.setStudents(students);
+        rabbiService.updateRabbi(rashbi);
+        rashbiId = rashbi.getId();
+        rabbi = rabbiService.getRabbi(rashbiId);
+        students = rabbiService.getStudents(rashbiId);
+
+        assertNotNull(rabbi);
+        for (Rabbi student: students){
+            System.out.println(student);
+        }
+        assertTrue(students.size() == 1);
+    }
+
+    @Test
+    public void updateNotAttachedStudents() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        Rabbi rabbi = rabbiService.getRabbi(rashbi.getId());
+        assertNotNull(rabbi);
+        List<Rabbi>students = new ArrayList<Rabbi>();
+        Rabbi student1 = new Rabbi();
+        student1.setName("student1");
+        Rabbi student2 = new Rabbi();
+        student2.setName("student2");
+        students.add(student1);
+        rabbiService.addRabbi(student1);
+        rabbiService.addRabbi(student2);
+
+        rashbi.setStudents(students);
+        rabbiService.updateRabbi(rashbi);
+        Integer rashbiId = rashbi.getId();
+        rabbi = rabbiService.getRabbi(rashbiId);
+        students = rabbiService.getStudents(rashbiId);
+
+        assertNotNull(rabbi);
+        for (Rabbi student: students){
+            System.out.println(student);
+        }
+
+        students.clear();
+        students.add(student2);
+
+        rashbi.setStudents(students);
+        rabbiService.updateRabbi(rashbi);
+        rashbiId = rashbi.getId();
+        rabbi = rabbiService.getRabbi(rashbiId);
+        students = rabbiService.getStudents(rashbiId);
+
+        assertNotNull(rabbi);
+        for (Rabbi student: students){
+            System.out.println(student);
+        }
+        assertTrue(students.size() == 1);
     }
 
     @Test

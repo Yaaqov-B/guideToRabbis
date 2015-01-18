@@ -32,4 +32,5 @@ public interface RabbiService {
     List<Rabbi> findByStudentNameContain(String name);
 
 
+    void updateRabbi(Rabbi rabbi);
 }
