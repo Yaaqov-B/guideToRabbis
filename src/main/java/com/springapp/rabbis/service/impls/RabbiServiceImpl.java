@@ -58,12 +58,12 @@ public class RabbiServiceImpl implements RabbiService{
 
     @Override
     public boolean removeIfExist(Rabbi rabbi) {
-        Rabbi oldRabbi = rabbiRepository.findByName(rabbi.getName());
+        Rabbi oldRabbi = getRabbi(rabbi);
         boolean toRemove = oldRabbi != null;
         if (toRemove){
             System.out.println("remove rabbi : " + oldRabbi);
             LOG.info("remove rabbi : " + oldRabbi);
-            removeRabbi(oldRabbi);
+            rabbiDao.removeRabbi(oldRabbi);
         }
         return toRemove;
     }
@@ -89,7 +89,10 @@ public class RabbiServiceImpl implements RabbiService{
     }
 
     private void removeBooks(Rabbi rabbi) {
-        bookRepository.deleteByRabbi_id(rabbi.getId());
+        Integer id = rabbi.getId();
+        if (id != null && id > 0){
+            bookRepository.deleteByRabbi_id(id);
+        }
     }
 
     private void copyRabbi(Rabbi newRabbi, Rabbi oldRabbi){
@@ -107,10 +110,6 @@ public class RabbiServiceImpl implements RabbiService{
         oldRabbi.setTeachers(newRabbi.getTeachers());
     }
 
-    @Override
-    public void removeRabbi(Rabbi rabbi) {
-        rabbiDao.removeRabbi(rabbi);
-    }
 
     @Override
     public Rabbi getRabbi(int id) {
@@ -126,6 +125,16 @@ public class RabbiServiceImpl implements RabbiService{
     @Override
     public Rabbi getRabbi(String name) {
         return rabbiDao.getRabbi(name);
+    }
+
+    @Override
+    public Rabbi getRabbi(Rabbi rabbi) {
+        Rabbi retRabbi = rabbiRepository.findByName(rabbi.getName());
+        Integer id = rabbi.getId();
+        if (retRabbi == null && id != null && id > 0) {
+            retRabbi = getRabbi(id);
+        }
+        return retRabbi;
     }
 
     @Override
@@ -153,13 +162,27 @@ public class RabbiServiceImpl implements RabbiService{
         return rabbiDao.getRabbiByName(name);
     }
 
-    private Rabbi addIfNotExistRabbi(Rabbi rabbi) {
-        String name = rabbi.getName();
-        Rabbi byName = rabbiRepository.findByName(name);
-        if (byName == null){
+    @Override
+    public Rabbi addIfNotExist(Rabbi rabbi) {
+        Rabbi r = getRabbi(rabbi);
+        if (r == null){
             rabbiDao.addRabbi(rabbi);
         }
-        return byName;
+        return r;
+    }
+
+    @Override
+    public Rabbi addOrUpdate(Rabbi rabbi) {
+        Rabbi r = getRabbi(rabbi);
+        updateStudentsAndTeachers(rabbi);
+        removeBooks(rabbi);
+        setBooks(rabbi);
+        if (r == null){
+            rabbiDao.addRabbi(rabbi);
+        } else {
+            rabbiDao.updateRabbi(rabbi);
+        }
+        return r;
     }
 
     private void updateStudentsAndTeachers(Rabbi r) {
@@ -173,7 +196,7 @@ public class RabbiServiceImpl implements RabbiService{
         List<Rabbi> toAdd = new ArrayList<Rabbi>();
         while (iterator.hasNext()){
             Rabbi rabbi = iterator.next();
-            Rabbi updated = addIfNotExistRabbi(rabbi);
+            Rabbi updated = addIfNotExist(rabbi);
             if (updated != null ){
                 iterator.remove();
                 toAdd.add(updated);

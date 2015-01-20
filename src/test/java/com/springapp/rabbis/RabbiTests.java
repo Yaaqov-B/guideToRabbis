@@ -72,6 +72,23 @@ public class RabbiTests {
     }
 
     @Test
+    public void removeRabbi() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        boolean removed = rabbiService.removeIfExist(rashbi);
+        assertTrue(removed);
+        rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rabbiService.addRabbi(rashbi);
+        Rabbi rabbi = rabbiService.getRabbi(rashbi.getId());
+        rabbi.setName("rashbi2");
+        removed = rabbiService.removeIfExist(rabbi);
+        assertTrue(removed);
+
+    }
+
+    @Test
     public void addRabbiWithoutName() throws  Exception{
         Rabbi rashbi = new Rabbi();
         boolean error = false;
@@ -101,6 +118,38 @@ public class RabbiTests {
         }
         assertTrue(error);
 
+
+    }
+
+    @Test
+    public void addIfNotExist() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        Rabbi exist = rabbiService.addIfNotExist(rashbi);
+        assertNull(exist);
+        Rabbi rabbi = rabbiService.getRabbi(rashbi.getId());
+        assertNotNull(rabbi);
+
+        exist = rabbiService.addIfNotExist(rashbi);
+        assertNotNull(exist);
+
+    }
+
+    @Test
+    public void addOrUpdate() throws  Exception{
+        Rabbi rashbi = new Rabbi();
+        rashbi.setName("rashbi");
+        rashbi.setNickname("yoyoy");
+        Rabbi exist = rabbiService.addOrUpdate(rashbi);
+        assertNull(exist);
+        rashbi = rabbiService.getRabbi(rashbi.getId());
+        assertNotNull(rashbi);
+        rashbi.setNickname("momo");
+
+        exist = rabbiService.addOrUpdate(rashbi);
+        assertNotNull(exist);
+
+        assertTrue(rashbi.getNickname().equals("momo"));
 
     }
 
@@ -197,7 +246,7 @@ public class RabbiTests {
     public void updateNotAttachedStudents() throws  Exception{
         Rabbi rashbi = new Rabbi();
         rashbi.setName("rashbi");
-        rabbiService.addRabbi(rashbi);
+        rabbiService.addOrUpdate(rashbi);
         Rabbi rabbi = rabbiService.getRabbi(rashbi.getId());
         assertNotNull(rabbi);
         List<Rabbi>students = new ArrayList<Rabbi>();
@@ -206,11 +255,11 @@ public class RabbiTests {
         Rabbi student2 = new Rabbi();
         student2.setName("student2");
         students.add(student1);
-        rabbiService.addRabbi(student1);
-        rabbiService.addRabbi(student2);
+//        rabbiService.addRabbi(student1);
+//        rabbiService.addRabbi(student2);
 
         rashbi.setStudents(students);
-        rabbiService.updateRabbi(rashbi);
+        rabbiService.addOrUpdate(rashbi);
         Integer rashbiId = rashbi.getId();
         rabbi = rabbiService.getRabbi(rashbiId);
         students = rabbiService.getStudents(rashbiId);
@@ -224,7 +273,7 @@ public class RabbiTests {
         students.add(student2);
 
         rashbi.setStudents(students);
-        rabbiService.updateRabbi(rashbi);
+        rabbiService.addOrUpdate(rashbi);
         rashbiId = rashbi.getId();
         rabbi = rabbiService.getRabbi(rashbiId);
         students = rabbiService.getStudents(rashbiId);
@@ -235,6 +284,8 @@ public class RabbiTests {
         }
         assertTrue(students.size() == 1);
     }
+
+
 
     @Test
     public void test1() throws Exception {

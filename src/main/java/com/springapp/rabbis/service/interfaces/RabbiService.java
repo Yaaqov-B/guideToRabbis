@@ -11,14 +11,16 @@ import java.util.List;
 public interface RabbiService {
 
     void addRabbi(Rabbi rabbi);
-    void removeRabbi(Rabbi rabbi);
+
     Rabbi getRabbi(int id);
     Rabbi getRabbiByNum(int num);
     Rabbi getRabbi(String name);
+    Rabbi getRabbi(Rabbi rabbi);
     List<Rabbi> getStudents(int id);
     List<Rabbi> getTeachers(int id);
     List<Rabbi> getStudentsByNum(int num);
     List<Rabbi> getTeachersByNum(int num);
+
 
     Rabbi getRabbiByName(String name);
 
@@ -33,4 +35,8 @@ public interface RabbiService {
 
 
     void updateRabbi(Rabbi rabbi);
+
+    Rabbi addIfNotExist(Rabbi rabbi);
+
+    Rabbi addOrUpdate(Rabbi rabbi);
 }
