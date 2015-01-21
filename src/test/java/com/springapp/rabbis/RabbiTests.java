@@ -169,6 +169,8 @@ public class RabbiTests {
         assertTrue(removed);
     }
 
+
+
     @Test
     public void addRabbiWithStudents() throws  Exception{
         Rabbi rashbi = new Rabbi();

@@ -180,6 +180,7 @@ public class RabbiServiceImpl implements RabbiService{
         if (r == null){
             rabbiDao.addRabbi(rabbi);
         } else {
+            rabbi.setId(r.getId());
             rabbiDao.updateRabbi(rabbi);
         }
         return r;
@@ -196,10 +197,10 @@ public class RabbiServiceImpl implements RabbiService{
         List<Rabbi> toAdd = new ArrayList<Rabbi>();
         while (iterator.hasNext()){
             Rabbi rabbi = iterator.next();
-            Rabbi updated = addIfNotExist(rabbi);
-            if (updated != null ){
+            Rabbi exist = addIfNotExist(rabbi);
+            if (exist != null ){
                 iterator.remove();
-                toAdd.add(updated);
+                toAdd.add(exist);
             }
         }
         rabbis.addAll(toAdd);

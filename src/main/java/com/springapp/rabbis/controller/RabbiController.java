@@ -211,9 +211,11 @@ public class RabbiController {
         extractLinks(rabbi.getStudents(), rabbi);
         removeEmptyNameElements(rabbi.getTeachers());
         extractLinks(rabbi.getTeachers(), rabbi);
-        boolean updated = rabbiService.removeIfExist(rabbi);
+//        boolean updated = rabbiService.removeIfExist(rabbi);
         updateGeorgian(rabbi);
-        rabbiService.addRabbi(rabbi);
+//        rabbiService.addRabbi(rabbi);
+        Rabbi r = rabbiService.addOrUpdate(rabbi);
+        boolean updated = r != null;
         model.addAttribute("updated", updated);
         if (updated){
             LOG.info("updating rabbi: " + rabbi);
