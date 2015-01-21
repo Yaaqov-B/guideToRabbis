@@ -175,12 +175,13 @@ public class RabbiServiceImpl implements RabbiService{
     public Rabbi addOrUpdate(Rabbi rabbi) {
         Rabbi r = getRabbi(rabbi);
         updateStudentsAndTeachers(rabbi);
-        removeBooks(rabbi);
-        setBooks(rabbi);
         if (r == null){
+            setBooks(rabbi);
             rabbiDao.addRabbi(rabbi);
         } else {
             rabbi.setId(r.getId());
+            removeBooks(rabbi);
+            setBooks(rabbi);
             rabbiDao.updateRabbi(rabbi);
         }
         return r;

@@ -50,10 +50,10 @@ public class Rabbi implements NamedBean{
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "rabbi"/*, orphanRemoval=true*/)
     private List<Book> books;
-    @ManyToMany(/*cascade = CascadeType.ALL*/)
+    @ManyToMany(/*fetch=FetchType.EAGER*/  /*cascade = CascadeType.ALL*/)
     @JoinTable(name="STUDENT")
     private List<Rabbi> students;
-    @ManyToMany(/*cascade = CascadeType.ALL*/)
+    @ManyToMany(/*fetch=FetchType.EAGER*/  /*cascade = CascadeType.ALL*/)
     @JoinTable(name="TEACHER")
     private List<Rabbi> teachers;
 

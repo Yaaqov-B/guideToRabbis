@@ -79,8 +79,16 @@
             <c:forEach var="student" items="${rabbi.students}">
                 <tr>
                     <c:choose>
+                        <c:when test="${rabbi.nickname != null}">
+                            <c:set var="name" value="${student.nickname}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="name" value="${student.name}"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
                         <c:when test="${student.num > 0}">
-                            <td><a href='/mvc1/rabbi/<c:out value="${student.num}"/>'>${student.name} </a></td>
+                            <td><a href='/mvc1/rabbi/<c:out value="${student.num}"/>'>${name} </a></td>
                         </c:when>
                         <c:otherwise>
                             <td><a href='/mvc1/searchRabbi/<c:out value="${student.name}"/>'>${student.name}${student.num}</a></td>
