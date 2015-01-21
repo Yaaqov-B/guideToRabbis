@@ -94,6 +94,10 @@
             <td><form:label path="nickname"><spring:message code="message.nickname" /></form:label></td>
             <td><form:input path="nickname" /></td>
         </tr>
+        <tr id="description">
+            <td><form:label path="description"><spring:message code="message.description" /></form:label></td>
+            <td><form:input path="description" /></td>
+        </tr>
         <tr id="born">
             <td><form:label path="born"><spring:message code="message.born" /></form:label></td>
             <td><form:input path="born" /></td>

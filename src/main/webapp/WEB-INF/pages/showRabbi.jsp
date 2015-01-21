@@ -27,6 +27,10 @@
         <td><spring:message code="message.nickname" /></td>
         <td>${rabbi.nickname}</td>
     </tr>
+    <tr id="description">
+        <td><spring:message code="message.description" /></td>
+        <td>${rabbi.description}</td>
+    </tr>
     <tr id="born">
         <td><spring:message code="message.born" /></td>
         <td>${rabbi.born}</td>

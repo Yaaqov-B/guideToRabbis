@@ -14,6 +14,9 @@
                 <c:if test="${rabbi.nickname.length() >0}">
                     , <a href='/mvc1/searchRabbiNickname/<c:out value="${rabbi.nickname}"/>'>${rabbi.nickname}</a>
                 </c:if>
+                <c:if test="${rabbi.description.length() >0}">
+                    , ${rabbi.description}
+                </c:if>
             </td>
         </tr>
         <c:if test="${rabbi.born.length() >0 || rabbi.birthLocation.length() > 0}">

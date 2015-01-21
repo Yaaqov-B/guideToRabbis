@@ -152,6 +152,10 @@ public class RabbiController {
                 String other = search.substring(0, length -1).concat("\"").concat(search.substring(length -1, length));
                 searchAllOptions(other, rabbis);
             }
+            if (rabbis.isEmpty()){
+                search = search.replace("הרב ","").replace("רב ","").replace("ר' ", "");
+                searchAllOptions(search, rabbis);
+            }
             allRabbisSorted(model, rabbis);
         }
         return "showAll";
