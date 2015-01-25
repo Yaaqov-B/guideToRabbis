@@ -5,6 +5,7 @@ add android
 search by georgian
 search word bold
 search by student/teachers contains name
+search by partial words - add field for keyword
 dendogram
 links
 autocomplete

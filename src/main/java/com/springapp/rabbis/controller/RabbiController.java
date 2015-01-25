@@ -249,7 +249,7 @@ public class RabbiController {
                 if (relation == null){
                     rabbi.setRelation(name);
                 } else {
-                    rabbi.setRelation(relation + name);
+                    rabbi.setRelation(relation + "#" + name);
                 }
             }
         }
@@ -403,7 +403,7 @@ public class RabbiController {
                 if(iNum == num) {
                     i.setName(num + "#" + description);
                 } else{
-                    i.setName(num +"");
+                    i.setName(iNum +"");
                 }
             }
         }
@@ -420,8 +420,9 @@ public class RabbiController {
             }
             if (iNum != null && iNum == num){
                 i.setName(i.getName() + " (" + description + ")");
+                i.setNickname(i.getNickname() + " (" + description + ")");
             }
-        }
+            }
     }
 
     private void allRabbisSorted(ModelMap model, List<Rabbi> rabbis) {
